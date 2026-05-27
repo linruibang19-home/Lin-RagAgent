@@ -283,31 +283,20 @@ framework（ID 生成器 / Redisson 工具，以 Spring Boot Starter 封装）
 
 ### 中间件一览
 
-项目依赖的中间件分两类：**需手动安装部署**的核心服务，以及**通过 `docker-compose` 一键启动**的 Milvus 生态组件。
+项目根目录的 `docker-compose.yml`（`name: lin-ragagent-stack`）包含**全部 10 个中间件服务**，一条命令即可启动所有依赖，无需手动安装：
 
-#### 手动安装（业务系统核心依赖）
-
-| 中间件 | 版本建议 | 用途 | 默认连接地址 |
-| :--- | :--- | :--- | :--- |
-| MySQL | 8.x | 业务数据 / Agent Checkpoint / 会话记忆 | `127.0.0.1:3306` |
-| PostgreSQL + pgvector | 15.x + pgvector 0.7+ | 向量存储（RAG 检索） | `127.0.0.1:5432` |
-| Elasticsearch | 8.x | 关键词倒排索引 | `127.0.0.1:9200` |
-| Redis | 7.x | 分布式锁 / 会话缓存 | `127.0.0.1:6379` |
-| Kafka | 3.x | 文档异步处理消息队列 | `127.0.0.1:9092` |
-| Neo4j | 5.x | 文档结构图谱（Document → Section → Item） | `bolt://127.0.0.1:7687` |
-
-#### Docker Compose 一键启动（`docker-compose.yml`）
-
-项目根目录的 `docker-compose.yml`（`name: milvus-stack`）包含以下 4 个服务：
-
-| 服务 | 镜像 | 暴露端口 | 用途 |
-| :--- | :--- | :--- | :--- |
-| `etcd` | `quay.io/coreos/etcd:v3.5.18` | 内部（不对外） | Milvus 元数据存储 |
-| `minio` | `minio/minio:RELEASE.2024-01-01T16-36-33Z` | `9000`（API）/ `9001`（控制台） | 对象存储，供 Milvus 持久化使用，同时作为**业务系统文件存储** |
-| `standalone` | `milvusdb/milvus:v2.6.6` | `19530`（gRPC）/ `9091`（HTTP） | Milvus 向量数据库（`ai-example-rag-milvus` 使用） |
-| `attu` | `zilliz/attu:v2.6.3` | `8000` → 容器 `3000` | Milvus 可视化管理界面 |
-
-> **MinIO 说明**：docker-compose 中的 MinIO 实例（`127.0.0.1:9000`）可直接被业务系统复用，无需单独安装 MinIO。默认账号 `minioadmin` / `minioadmin` 与 `application.yaml` 中的配置一致。
+| 服务 | 镜像 | 端口 | 用途 | 账号/密码 |
+| :--- | :--- | :--- | :--- | :--- |
+| `mysql` | `mysql:8.0` | `3306` | 业务数据 / Checkpoint / 记忆 | `root` / `root` |
+| `postgres` | `pgvector/pgvector:pg15` | `5432` | 向量存储（RAG 检索） | `postgres` / `postgres` |
+| `elasticsearch` | `elasticsearch:8.13.0` | `9200` | 关键词倒排索引，安全认证已关闭 | 无需认证 |
+| `redis` | `redis:7.2` | `6379` | 分布式锁 / 缓存 | 无密码 |
+| `kafka` | `bitnami/kafka:3.7` | `9092` | 文档异步处理（KRaft 模式） | 无认证 |
+| `neo4j` | `neo4j:5.20` | `7474` / `7687` | 文档结构图谱 | `neo4j` / `12345678` |
+| `minio` | `minio/minio` | `9000` / `9001` | 文件存储（业务 + Milvus 共用） | `minioadmin` / `minioadmin` |
+| `etcd` | `quay.io/coreos/etcd:v3.5.18` | 内部 | Milvus 元数据存储 | — |
+| `standalone` | `milvusdb/milvus:v2.6.6` | `19530` / `9091` | Milvus 向量库（示例用） | — |
+| `attu` | `zilliz/attu:v2.6.3` | `8000` | Milvus 可视化管理界面 | — |
 
 启动命令：
 
@@ -317,6 +306,7 @@ docker-compose up -d
 
 服务启动后可访问：
 
+- Neo4j Browser：`http://localhost:7474`（账号 `neo4j` / `12345678`）
 - MinIO 控制台：`http://localhost:9001`（账号 `minioadmin` / `minioadmin`）
 - Attu（Milvus UI）：`http://localhost:8000`
 
@@ -347,7 +337,7 @@ $env:TAVILY_API_KEY       = "tvly-xxxxxxxxxxxx"
 
 ### 启动步骤
 
-#### 第一步：启动 Docker 组件（MinIO + Milvus）
+#### 第一步：启动所有中间件
 
 ```bash
 docker-compose up -d
@@ -363,11 +353,14 @@ docker-compose ps
 
 ```bash
 # MySQL 建库建表
-mysql -u root -p < sql/Mysql/create_database_mysql.sql
-mysql -u root -p < sql/Mysql/create_table_mysql.sql
+mysql -h 127.0.0.1 -u root -proot < sql/Mysql/create_database_mysql.sql
+mysql -h 127.0.0.1 -u root -proot < sql/Mysql/create_table_mysql.sql
+```
 
-# PostgreSQL 启用 pgvector 扩展（登录后执行）
-# CREATE EXTENSION IF NOT EXISTS vector;
+PostgreSQL 需要手动启用 pgvector 扩展（首次使用执行一次）：
+
+```bash
+docker exec -it lin-ragagent-postgres psql -U postgres -d super_agent_pgvector -c "CREATE EXTENSION IF NOT EXISTS vector;"
 ```
 
 #### 第三步：配置环境变量

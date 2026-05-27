@@ -1,7 +1,147 @@
 # docker-compose.yml
-name: milvus-stack
+# Lin-RagAgent 全量中间件一键启动
+# 所有配置均与 application.yaml 中的默认值保持一致，可直接使用。
+#
+# 启动命令：docker-compose up -d
+# 停止命令：docker-compose down
+# 清理数据：docker-compose down -v
+#
+# 端口总览：
+#   MySQL        3306
+#   PostgreSQL   5432
+#   Elasticsearch 9200
+#   Redis        6379
+#   Kafka        9092
+#   Neo4j        7474（Browser） / 7687（Bolt）
+#   MinIO        9000（API） / 9001（控制台）
+#   Milvus       19530（gRPC） / 9091（HTTP）
+#   Attu         8000（Milvus UI）
+
+name: lin-ragagent-stack
 
 services:
+
+  # ================================================================
+  # MySQL 8.0 — 业务数据 / Agent Checkpoint / 会话记忆摘要
+  # 对应 application.yaml: spring.datasource / spring.ai.chat.checkpoint
+  # 账号：root / root
+  # ================================================================
+  mysql:
+    container_name: lin-ragagent-mysql
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_CHARACTER_SET_SERVER: utf8mb4
+      MYSQL_COLLATION_SERVER: utf8mb4_unicode_ci
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      retries: 5
+
+  # ================================================================
+  # PostgreSQL 15 + pgvector — 向量存储（RAG 双通道检索）
+  # 对应 application.yaml: app.manage.pgvector
+  # 账号：postgres / postgres，数据库：super_agent_pgvector
+  # 启动后需执行：CREATE EXTENSION IF NOT EXISTS vector;
+  # ================================================================
+  postgres:
+    container_name: lin-ragagent-postgres
+    image: pgvector/pgvector:pg15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: super_agent_pgvector
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  # ================================================================
+  # Elasticsearch 8.x — 关键词倒排索引（双通道检索的关键词侧）
+  # 对应 application.yaml: app.manage.elasticsearch
+  # 单节点模式，关闭 TLS/Security，本地开发直连无需认证
+  # ================================================================
+  elasticsearch:
+    container_name: lin-ragagent-elasticsearch
+    image: elasticsearch:8.13.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+
+  # ================================================================
+  # Redis 7 — 分布式锁（RedisLeaseManager）/ 会话缓存
+  # 对应 application.yaml: spring.data.redis
+  # 本地开发无密码，开启 AOF 持久化
+  # ================================================================
+  redis:
+    container_name: lin-ragagent-redis
+    image: redis:7.2
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  # ================================================================
+  # Kafka 3.7 (KRaft 模式，无需 Zookeeper) — 文档异步处理消息队列
+  # 对应 application.yaml: spring.kafka / app.manage.kafka
+  # 主题由 Spring Boot 自动创建（auto-create-topics: true）
+  # 注意：ADVERTISED_LISTENERS 使用宿主机 127.0.0.1，
+  #       保证在宿主机上运行的 Spring Boot 可直接访问
+  # ================================================================
+  kafka:
+    container_name: lin-ragagent-kafka
+    image: bitnami/kafka:3.7
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    ports:
+      - "9092:9092"
+    volumes:
+      - kafka-data:/bitnami/kafka
+
+  # ================================================================
+  # Neo4j 5 — 文档结构图谱（Document → Section → Item 层级）
+  # 对应 application.yaml: app.manage.neo4j
+  # 账号：neo4j / 12345678（与 application.yaml 默认值一致）
+  # Browser UI：http://localhost:7474
+  # ================================================================
+  neo4j:
+    container_name: lin-ragagent-neo4j
+    image: neo4j:5.20
+    environment:
+      NEO4J_AUTH: neo4j/12345678
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j-data:/data
+
+  # ================================================================
+  # Milvus 生态（etcd + MinIO + Milvus Standalone + Attu）
+  # etcd：Milvus 集群元数据存储（仅内部通信，不对外暴露）
+  # MinIO：Milvus 持久化存储，同时作为业务系统文件存储（9000/9001）
+  # Milvus：向量数据库，主要供 ai-example-rag-milvus 示例使用
+  # Attu：Milvus 可视化管理界面，访问 http://localhost:8000
+  # ================================================================
   etcd:
     container_name: etcd
     image: quay.io/coreos/etcd:v3.5.18
@@ -53,6 +193,12 @@ services:
       - standalone
 
 volumes:
+  mysql-data:
+  postgres-data:
+  elasticsearch-data:
+  redis-data:
+  kafka-data:
+  neo4j-data:
   etcd-data:
   minio-data:
   milvus-data:
