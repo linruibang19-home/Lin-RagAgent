@@ -1,0 +1,17 @@
+# 统一行尾处理：提交时统一转为 LF，检出时 Windows 自动转为 CRLF
+* text=auto eol=lf
+
+# 二进制文件不做行尾转换
+*.jar binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.zip binary
+*.gz binary

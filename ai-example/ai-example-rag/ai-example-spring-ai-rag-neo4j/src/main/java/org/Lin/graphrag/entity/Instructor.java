@@ -1,0 +1,22 @@
+﻿package org.Lin.graphrag.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.neo4j.core.schema.Id;
+import org.springframework.data.neo4j.core.schema.Node;
+
+/**
+ * @program: 企业级别深度设计 AI Agent。 
+ * @description: 数据实体
+ * @author: Lin-RAGAgent
+ **/
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Node("Instructor")
+public class Instructor {
+
+    @Id
+    private String name;
+}
