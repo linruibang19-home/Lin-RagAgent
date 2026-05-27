@@ -4,8 +4,8 @@
   <div v-else class="app-shell">
     <header class="app-header">
       <div class="brand-lockup">
-        <div class="brand-mark" aria-hidden="true">S</div>
-        <h1 class="app-title">超级智能</h1>
+        <div class="brand-mark" aria-hidden="true">L</div>
+        <h1 class="app-title">Lin-RagAgent</h1>
       </div>
     </header>
 
