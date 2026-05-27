@@ -281,51 +281,129 @@ framework（ID 生成器 / Redisson 工具，以 Spring Boot Starter 封装）
 
 ## 快速启动
 
-### 依赖中间件
+### 中间件一览
 
-| 中间件 | 用途 | 必须 |
+项目依赖的中间件分两类：**需手动安装部署**的核心服务，以及**通过 `docker-compose` 一键启动**的 Milvus 生态组件。
+
+#### 手动安装（业务系统核心依赖）
+
+| 中间件 | 版本建议 | 用途 | 默认连接地址 |
+| :--- | :--- | :--- | :--- |
+| MySQL | 8.x | 业务数据 / Agent Checkpoint / 会话记忆 | `127.0.0.1:3306` |
+| PostgreSQL + pgvector | 15.x + pgvector 0.7+ | 向量存储（RAG 检索） | `127.0.0.1:5432` |
+| Elasticsearch | 8.x | 关键词倒排索引 | `127.0.0.1:9200` |
+| Redis | 7.x | 分布式锁 / 会话缓存 | `127.0.0.1:6379` |
+| Kafka | 3.x | 文档异步处理消息队列 | `127.0.0.1:9092` |
+| Neo4j | 5.x | 文档结构图谱（Document → Section → Item） | `bolt://127.0.0.1:7687` |
+
+#### Docker Compose 一键启动（`docker-compose.yml`）
+
+项目根目录的 `docker-compose.yml`（`name: milvus-stack`）包含以下 4 个服务：
+
+| 服务 | 镜像 | 暴露端口 | 用途 |
+| :--- | :--- | :--- | :--- |
+| `etcd` | `quay.io/coreos/etcd:v3.5.18` | 内部（不对外） | Milvus 元数据存储 |
+| `minio` | `minio/minio:RELEASE.2024-01-01T16-36-33Z` | `9000`（API）/ `9001`（控制台） | 对象存储，供 Milvus 持久化使用，同时作为**业务系统文件存储** |
+| `standalone` | `milvusdb/milvus:v2.6.6` | `19530`（gRPC）/ `9091`（HTTP） | Milvus 向量数据库（`ai-example-rag-milvus` 使用） |
+| `attu` | `zilliz/attu:v2.6.3` | `8000` → 容器 `3000` | Milvus 可视化管理界面 |
+
+> **MinIO 说明**：docker-compose 中的 MinIO 实例（`127.0.0.1:9000`）可直接被业务系统复用，无需单独安装 MinIO。默认账号 `minioadmin` / `minioadmin` 与 `application.yaml` 中的配置一致。
+
+启动命令：
+
+```bash
+docker-compose up -d
+```
+
+服务启动后可访问：
+
+- MinIO 控制台：`http://localhost:9001`（账号 `minioadmin` / `minioadmin`）
+- Attu（Milvus UI）：`http://localhost:8000`
+
+---
+
+### 环境变量
+
+启动后端前，需要在系统环境变量（或 IDE Run Configuration）中配置以下变量：
+
+| 变量名 | 说明 | 是否必须 |
 | :--- | :--- | :--- |
-| MySQL | 业务数据 / Checkpoint / 记忆 | 是 |
-| PostgreSQL + PGVector | 向量存储 | 是 |
-| Elasticsearch | 关键词检索 | 是 |
-| Redis | 分布式锁 / 缓存 | 是 |
-| Kafka | 异步文档处理 | 是 |
-| Neo4j | 文档图谱 | 是 |
-| MinIO | 文件存储 | 是 |
-| Milvus | ai-example-milvus 示例 | 否（仅示例用） |
+| `ALI_BAI_LIAN_API_KEY` | 阿里云百炼 DashScope API Key（对话模型 + Embedding） | **必须** |
+| `TAVILY_API_KEY` | Tavily 联网搜索 API Key（ReactAgent 联网能力） | **必须** |
+| `ELASTICSEARCH_PASSWORD` | Elasticsearch 密码，默认 `elastic` | 可选 |
+| `NEO4J_PASSWORD` | Neo4j 密码，默认 `12345678` | 可选 |
+| `RERANK_API_KEY` | SiliconFlow Rerank API Key，未配置时回退到 `ALI_BAI_LIAN_API_KEY` | 可选 |
+| `SUPER_AGENT_ADMIN_USERNAME` | 管理后台账号，默认 `admin` | 可选 |
+| `SUPER_AGENT_ADMIN_PASSWORD` | 管理后台密码，默认 `admin123456` | 可选 |
+
+PowerShell 快速设置示例：
+
+```powershell
+$env:ALI_BAI_LIAN_API_KEY = "sk-xxxxxxxxxxxx"
+$env:TAVILY_API_KEY       = "tvly-xxxxxxxxxxxx"
+```
+
+---
 
 ### 启动步骤
 
-1. **初始化数据库** — 执行 `sql/Mysql/create_database_mysql.sql` 和 `sql/Mysql/create_table_mysql.sql`
+#### 第一步：启动 Docker 组件（MinIO + Milvus）
 
-2. **配置 `application.yml`** — 填写 MySQL / PostgreSQL / ES / Redis / Kafka / Neo4j / MinIO 连接信息及阿里云 DashScope API Key
+```bash
+docker-compose up -d
+```
 
-3. **启动后端**
+确认所有容器正常运行：
 
-   ```bash
-   mvn clean install -DskipTests
-   cd Lin-RagAgent-business/Lin-RagAgent-business-chat
-   mvn spring-boot:run
-   ```
+```bash
+docker-compose ps
+```
 
-4. **启动前端**
+#### 第二步：初始化数据库
 
-   ```bash
-   cd vue
-   npm install && npm run dev
-   ```
+```bash
+# MySQL 建库建表
+mysql -u root -p < sql/Mysql/create_database_mysql.sql
+mysql -u root -p < sql/Mysql/create_table_mysql.sql
 
-5. **（可选）启动 Milvus 环境**
+# PostgreSQL 启用 pgvector 扩展（登录后执行）
+# CREATE EXTENSION IF NOT EXISTS vector;
+```
 
-   ```bash
-   docker-compose up -d
-   ```
+#### 第三步：配置环境变量
 
-   启动后访问 Attu：`http://localhost:8000`
+参考上方"环境变量"表，至少配置 `ALI_BAI_LIAN_API_KEY` 和 `TAVILY_API_KEY`。
 
-6. **（可选）运行 AI 示例** — 各 `ai-example-*` 子模块可独立启动，`mvn spring-boot:run` 即可
+#### 第四步：启动后端
 
-> 示例文档资料位于 `需要的例子演示/` 目录，包含 PDF 产品手册和多份 Markdown 制度文档，可直接上传系统进行 RAG 测试。
+```bash
+mvn clean install -DskipTests
+cd Lin-RagAgent-business/Lin-RagAgent-business-chat
+mvn spring-boot:run
+```
+
+后端默认端口：`9082`，API 文档：`http://localhost:9082/doc.html`
+
+#### 第五步：启动前端
+
+```bash
+cd vue
+npm install
+npm run dev
+```
+
+前端默认端口：`5173`，访问 `http://localhost:5173`
+
+#### （可选）运行 AI 示例模块
+
+各 `ai-example-*` 子模块均可独立启动：
+
+```bash
+cd ai-example/ai-example-rag/ai-example-spring-ai-rag-milvus
+mvn spring-boot:run
+```
+
+> 示例文档资料位于 `需要的例子演示/` 目录，包含 PDF 产品手册和多份 Markdown 制度文档，可直接通过管理后台上传进行 RAG 测试。
 
 ---
 
