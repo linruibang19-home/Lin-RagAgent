@@ -24,52 +24,165 @@
 
 ## 项目架构
 
+### 分层架构总览
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        前端展示层  vue/                                  │
+│   Vue 3 · Vite · Vue Router                                             │
+│   业务对话页（三种问答模式）│ 管理后台（文档 / 知识路由 / 对话观测）        │
+└──────────────────────────────────┬──────────────────────────────────────┘
+                                   │ HTTP REST / SSE 流式（端口 5173 → 代理）
+┌──────────────────────────────────▼──────────────────────────────────────┐
+│                   接入与安全层  Spring Boot（端口 9082）                  │
+│   JWT 认证过滤器 │ 全局异常处理 │ 统一 ApiResponse 封装 │ 只读预览模式    │
+└────────────┬─────────────────────────────────┬──────────────────────────┘
+             │                                 │
+┌────────────▼────────────────┐   ┌────────────▼────────────────────────┐
+│     对话 Agent 模块          │   │       文档与知识管理模块              │
+│                             │   │                                      │
+│  前置编排器（5 步决策）       │   │  文档全生命周期：上传→解析→策略→索引  │
+│  ├ 路由判定（知识库/联网）    │   │  ├ 行语义分类器                      │
+│  ├ 问题改写（指代消歧）       │   │  ├ 结构层次树构建 & 歧义消解          │
+│  ├ 子问题拆分（最多 4 个）    │   │  ├ Parent / Child 双粒度切块         │
+│  ├ 知识路由三级漏斗           │   │  ├ AI 策略推荐（自动规划索引方案）    │
+│  └ 歧义检测 & 主动追问        │   │  ├ 向量化写入 PGVector / ES          │
+│                             │   │  ├ Neo4j 图谱节点与关系构建           │
+│  执行器注册表                │   │  └ Kafka 异步队列解耦处理流程         │
+│  ├ ClarificationExecutor    │   │                                      │
+│  ├ RagChatExecutor          │   │  知识路由管理                         │
+│  ├ GraphOnlyExecutor        │   │  ├ Scope / Topic 三级漏斗配置         │
+│  ├ GraphThenEvidenceExecutor│   │  ├ 文档画像生成（AI 自动提取特征）     │
+│  └ ReactAgentExecutor       │   │  ├ 主题文档关联绑定                   │
+│                             │   │  └ 路由命中率追踪（影子路由）          │
+│  RAG 检索引擎                │   └──────────────────────────────────────┘
+│  ├ VectorRetrievalChannel   │
+│  ├ KeywordRetrievalChannel  │
+│  ├ RRF 融合排序              │
+│  └ 证据预算裁剪 & 防幻觉短路 │
+│                             │
+│  Agent 工具层                │
+│  ├ Tavily 联网搜索           │
+│  └ 自定义工具（可扩展）       │
+└─────────────────────────────┘
+             │
+┌────────────▼────────────────────────────────────────────────────────────┐
+│                       基础框架 & 工具层                                  │
+│  分布式雪花 ID（Starter）│ Redisson 分布式锁 │ Redis 延迟队列             │
+│  全局异常处理 │ ApiResponse 封装 │ Web 拦截器基类 │ Prompt 模板管理       │
+└────────────┬────────────────────────────────────────────────────────────┘
+             │
+┌────────────▼────────────────────────────────────────────────────────────┐
+│                        中间件 / 存储层                                   │
+│  MySQL         · 业务主库 + Spring AI Checkpoint（ReAct 状态持久化）     │
+│  PostgreSQL    · pgvector 语义向量索引（RAG 检索主力）                   │
+│  Elasticsearch · 关键词倒排索引（BM25 召回，双通道之一）                 │
+│  Redis         · 分布式锁 / 会话租约 / 延迟任务                         │
+│  Kafka         · 文档解析 & 索引构建任务异步消息队列                     │
+│  Neo4j         · Document → Section → Item 三层文档图谱                 │
+│  MinIO         · 原始文件存储（PDF / Markdown / TXT）                   │
+│  Milvus        · 高性能向量数据库（ai-example 示例专用）                 │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### 完整目录结构
+
 ```text
 Lin-RagAgent/
-├── Lin-RagAgent-business/                    # 业务核心层
-│   └── Lin-RagAgent-business-chat/           # 对话与知识库核心业务
+├── Lin-RagAgent-business/                              # 业务核心层
+│   └── Lin-RagAgent-business-chat/                    # 核心服务，端口 9082
 │       └── src/main/java/org/Lin/ai/
-│           ├── auth/                         # JWT 认证授权
-│           ├── chatagent/                    # 对话 Agent 核心
-│           │   ├── rag/
-│           │   │   ├── executor/             # 多执行器（歧义/RAG/ReAct/图谱）
-│           │   │   ├── retrieve/channel/     # 双通道检索（向量+关键词）
-│           │   │   └── model/                # 执行计划 & 证据模型
-│           │   ├── support/                  # SSE流式/工具拦截/DashScope兼容
-│           │   └── tool/                     # Agent 工具定义
-│           ├── manage/                       # 文档管理
-│           │   ├── config/                   # ES/Kafka/MinIO/Neo4j/PgVector 配置
-│           │   ├── mq/                       # Kafka 异步消息处理
-│           │   └── support/                  # 文档处理支撑（切块/解析/索引）
-│           └── prompt/                       # Prompt 模板管理
-├── Lin-RagAgent-common/                      # 通用公共层
-│   ├── Lin-RagAgent-common-frame/            # 框架公共组件（异常/响应/填充）
-│   └── Lin-RagAgent-common-web/              # Web 通用组件
-├── Lin-RagAgent-id-generator-framework/      # 分布式 ID 生成器（Spring Boot Starter）
-├── Lin-RagAgent-redisson-framework/          # Redisson 分布式工具框架
-│   ├── Lin-RagAgent-redisson-service-framework/      # Redis 租约 & 分布式锁
-│   └── Lin-RagAgent-service-delay-queue-framework/   # 延迟队列
-├── ai-example/                               # AI 技术学习示例模块
-│   ├── ai-example-one/                       # 入门基础示例
-│   ├── ai-example-spring-ai/                 # Spring AI 核心用法
-│   ├── ai-example-spring-ai-alibaba/         # Spring AI Alibaba & ReactAgent
-│   ├── ai-example-memory/                    # 会话记忆三种策略示例
+│           ├── auth/                                  # 认证授权模块
+│           │   ├── config/                            # JWT 过滤器 & 只读预览模式属性（PreviewModeProperties）
+│           │   ├── controller/                        # 登录 / 登出 / 当前用户（/admin/auth）
+│           │   ├── service/                           # 认证逻辑 & 管理员 Profile 查询
+│           │   └── support/                           # JWT 工具 / Token 解析 / 预览模式拦截器
+│           ├── chatagent/                             # 对话 Agent 核心模块
+│           │   ├── config/                            # ReAct 限流、模型、DashScope 配置
+│           │   ├── controller/                        # 业务对话接口（/api/chat）
+│           │   │   └── BusinessChatController         # 流式/会话/停止/检索观测/阶段基准接口
+│           │   ├── data/                              # MyBatis 数据访问（会话/Exchange/路由追踪表）
+│           │   ├── model/                             # 领域模型
+│           │   │   ├── ConversationSession            # 会话快照（含 exchanges 列表）
+│           │   │   ├── ConversationExchange           # 单轮对话（问/答/工具/引用/推荐）
+│           │   │   └── StageBenchmark                 # 各阶段耗时基准
+│           │   ├── service/                           # BusinessChatService 统一业务入口
+│           │   ├── rag/                               # RAG 推理引擎
+│           │   │   ├── executor/                      # 多执行器体系
+│           │   │   │   ├── ConversationExecutor       # 执行器公共接口
+│           │   │   │   ├── ConversationExecutorRegistry # 执行器注册表（按优先级路由）
+│           │   │   │   ├── ClarificationExecutor      # 歧义追问：信息不足时生成澄清问题
+│           │   │   │   ├── RagChatExecutor            # 标准 RAG：证据驱动生成，来源可追溯
+│           │   │   │   ├── GraphOnlyExecutor          # Neo4j 图谱纯导航：文档结构精准定位
+│           │   │   │   ├── GraphThenEvidenceExecutor  # 图谱定位 + 双通道证据混合检索
+│           │   │   │   └── ReactAgentExecutor         # ReAct Agent：联网搜索 / 多步自主推理
+│           │   │   ├── retrieve/channel/              # 双通道并行检索
+│           │   │   │   ├── VectorRetrievalChannel     # PGVector 语义向量检索（相似度阈值过滤）
+│           │   │   │   └── KeywordRetrievalChannel    # Elasticsearch 关键词检索（BM25 召回）
+│           │   │   ├── model/                         # 执行计划 & 证据模型
+│           │   │   │   ├── ConversationExecutionPlan  # 编排器产出：执行器类型+子问题+路由结果
+│           │   │   │   └── EvidencePackage            # 证据包：检索片段 + 来源元数据 + 预算控制
+│           │   │   ├── service/                       # 前置编排器 / 知识路由服务 / 记忆摘要服务
+│           │   │   └── support/                       # RRF 融合排序 / 证据预算裁剪工具
+│           │   ├── support/                           # SSE 流式推送 / DashScope 协议兼容拦截器
+│           │   └── tool/                              # Agent 工具（Tavily 联网搜索等）
+│           ├── manage/                                # 文档与知识管理模块
+│           │   ├── config/                            # ES / Kafka / MinIO / Neo4j / PgVector 连接配置
+│           │   ├── controller/                        # REST 接口
+│           │   │   ├── DocumentManageController       # 上传/分页/详情/删除/策略/索引/Chunk（/manage/document）
+│           │   │   └── KnowledgeManageController      # Scope/Topic/画像/关联/路由追踪（/manage/knowledge）
+│           │   ├── data/                              # 文档 / Chunk / Topic / Scope / 画像 数据层
+│           │   ├── model/                             # 文档领域模型（Document / Chunk / Profile / Topic / Scope）
+│           │   ├── mq/                                # Kafka 消息
+│           │   │   ├── DocumentIndexTaskProducer      # 索引任务消息生产者
+│           │   │   └── DocumentIndexTaskConsumer      # 索引任务消息消费者（异步执行解析+入库）
+│           │   ├── service/                           # 文档服务群
+│           │   │   ├── DocumentManageService          # 上传 / 策略推荐 / 确认 / 索引构建 / Chunk查询
+│           │   │   └── KnowledgeManageService         # 路由漏斗配置 / 画像生成 / 关联管理 / 追踪分页
+│           │   └── support/                           # 文档结构智能解析引擎
+│           │       ├── DocumentLineClassifier         # 行语义分类（标题/代码块/表格/列表/正文）
+│           │       ├── DocumentStructureSignalExtractor # 层级信号批量提取（缩进/序号/标点规则）
+│           │       ├── DocumentStructureHierarchyResolver # 多层嵌套层次树还原
+│           │       ├── DocumentStructureAmbiguityResolver # 标题与段落歧义消解
+│           │       └── DocumentStructureTreeValidator  # 树结构合法性校验（孤节点/深度/循环检测）
+│           └── prompt/                                # Prompt 模板统一管理（各阶段 Prompt 集中维护）
+├── Lin-RagAgent-common/                               # 通用公共层
+│   ├── Lin-RagAgent-common-frame/                     # 框架公共组件
+│   │   ├── ApiResponse<T>                             # 统一响应封装（code=0 成功，-1/-100 错误）
+│   │   ├── BaseException / SuperAgentFrameException   # 自定义异常体系（code + message）
+│   │   └── DefaultExceptionHandler                    # 全局异常处理器（@RestControllerAdvice）
+│   └── Lin-RagAgent-common-web/                       # Web 通用组件（字段填充器 / 拦截器基类）
+├── Lin-RagAgent-id-generator-framework/               # 分布式 ID 生成器（Spring Boot Starter）
+│   └── 基于雪花算法，自动分配 workerId，支持多实例部署唯一 ID 生成
+├── Lin-RagAgent-redisson-framework/                   # Redisson 分布式工具框架
+│   ├── Lin-RagAgent-redisson-service-framework/       # Redis 租约管理 & 分布式锁（RedisLeaseManager）
+│   └── Lin-RagAgent-service-delay-queue-framework/    # 基于 Redis ZSet 的延迟队列（任务重试/降级）
+├── ai-example/                                        # AI 技术学习示例模块（可独立运行）
+│   ├── ai-example-one/                               # 入门：Chat / Prompt / 流式输出
+│   ├── ai-example-spring-ai/                         # Spring AI 核心用法（Tool Call / Advisor / Memory）
+│   ├── ai-example-spring-ai-alibaba/                 # Spring AI Alibaba & ReAct Agent 完整示例
+│   ├── ai-example-memory/                            # 会话记忆三种策略（内存 / JDBC / 摘要压缩）
 │   ├── ai-example-mcp/
-│   │   ├── ai-example-spring-ai-office-mcp-server/   # MCP Server（Office 工具）
-│   │   └── ai-example-spring-ai-office-mcp-client/   # MCP Client
+│   │   ├── ai-example-spring-ai-office-mcp-server/   # MCP Server：Office 文件读写工具集
+│   │   └── ai-example-spring-ai-office-mcp-client/   # MCP Client：连接 Server 发起工具调用
 │   └── ai-example-rag/
-│       ├── ai-example-demo-rag/              # RAG 最简 Demo
-│       ├── ai-example-spring-ai-rag/         # Spring AI RAG 基础
-│       ├── ai-example-spring-ai-rag-pg/      # PGVector 向量检索
-│       ├── ai-example-spring-ai-rag-pg-es/   # PG + ES 混合双通道检索
-│       ├── ai-example-spring-ai-rag-milvus/  # Milvus 向量库
-│       └── ai-example-spring-ai-rag-neo4j/   # Neo4j 图数据库 RAG
-├── vue/                                      # 前端 Vue 3 + Vite
+│       ├── ai-example-demo-rag/                      # RAG 最简 Demo（存 / 检 / 问 三步）
+│       ├── ai-example-spring-ai-rag/                 # Spring AI RAG 基础用法
+│       ├── ai-example-spring-ai-rag-pg/              # PGVector 语义向量检索 RAG
+│       ├── ai-example-spring-ai-rag-pg-es/           # PGVector + Elasticsearch 混合双通道检索
+│       ├── ai-example-spring-ai-rag-milvus/          # Milvus 向量库集成
+│       └── ai-example-spring-ai-rag-neo4j/           # Neo4j 图数据库 RAG
+├── vue/                                              # 前端（Vue 3 + Vite）
+│   └── src/
+│       ├── views/BusinessChatView.vue                # 业务对话主页（三模式切换 + 文档选择框）
+│       ├── views/admin/                              # 管理后台（文档接入 / 知识路由 / 对话观测）
+│       ├── api/api.js                                # 全量 API 封装（fetch + SSE 流式）
+│       └── utils/knowledgeRoute.js                   # 知识路由结果展示工具
 ├── sql/
-│   ├── Mysql/                                # MySQL 建库建表脚本
-│   └── PostgresSql/                          # PostgreSQL 脚本
-├── 需要的例子演示/                            # 示例文档资料（PDF/Markdown）
-└── docker-compose.yml                        # Milvus + MinIO + etcd 环境编排
+│   ├── Mysql/                                        # MySQL 建库 & 建表脚本
+│   └── PostgresSql/                                  # pgvector 扩展初始化脚本
+├── 需要的例子演示/                                    # 示例文档资料（PDF / Markdown）
+└── docker-compose.yml                               # 全量中间件编排（10 个服务一键启动）
 ```
 
 ---
