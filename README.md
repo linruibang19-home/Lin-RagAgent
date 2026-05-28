@@ -1,8 +1,8 @@
 # Lin-RagAgent
 
-**Lin-RagAgent** 是一个基于 Java 技术栈的 **企业级 AI 智能体对话平台**，在原有开源项目基础上经过架构重新设计与改编。
+**Lin-RagAgent** 是一个基于 Java 技术栈的 **企业级 AI 智能体对话平台**，结合 **VibeCoding** 理念进行全栈开发——以 AI 辅助驱动架构设计、模块拆解与代码实现，探索人机协同编程在复杂工程项目中的落地路径。
 
-覆盖智能对话、文档知识问答、联网搜索、RAG 检索增强生成、MCP 工具协议、多执行器调度、Neo4j 图数据库结构图谱、文档全生命周期管理等完整能力。同时内置一套从基础到进阶的 **AI 技术示例模块**（`ai-example`），覆盖 Spring AI、Spring AI Alibaba、多向量库 RAG（PGVector / Milvus / Neo4j / ES）、会话记忆、MCP 协议等完整学习路径。
+覆盖智能对话、文档知识问答、联网搜索、RAG 检索增强生成、MCP 工具协议、多执行器调度、Neo4j 图数据库结构图谱、文档全生命周期管理等完整业务能力。工程层面采用多模块 Maven 分层架构，前后端分离，后端以 Spring AI / Spring AI Alibaba 为核心驱动，支持向量库（PGVector / Milvus）+ 倒排索引（Elasticsearch）双通道检索。同时内置一套从基础到进阶的 **AI 技术示例模块**（`ai-example`），系统覆盖 Spring AI、多向量库 RAG、会话记忆、MCP 协议等完整学习路径，适合作为企业级 AI Agent 项目的参考实现与实战起点。
 
 ---
 
