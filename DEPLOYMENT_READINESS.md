@@ -9,11 +9,22 @@
 - 统一 Kafka 文档处理 topic 自动创建逻辑，使自动创建的 topic 与生产者、消费者实际使用的 `prefix-topic` 名称一致。
 - 修正 `docker-compose.yml` 中 Attu 连接 Milvus 的服务名，避免指向不存在的 `milvus-standalone`。
 - 增加 `application-prod.yaml`，将生产环境数据库、中间件、管理员账号、JWT secret、API key 等配置改为环境变量注入，并收敛 Actuator 暴露范围。
+- 修正各模块 `AutoConfiguration.imports` 中遗留的 `org.javaup.*` 自动配置类名，避免 Spring Boot 启动时报 `Unable to read meta-data`。
+- 修正主业务模块 `log4j2.xml` 的日志过滤包名前缀，使其与当前 `org.Lin` 包名一致。
+
+## 当前启动验证状态
+
+- 后端主服务可以完成 Maven 编译与 Spring Boot 基础启动流程，已进入 Tomcat 和 Spring 容器初始化阶段。
+- 当前本机未能完整启动成功，阻塞点为 MySQL 凭据不匹配：`Access denied for user 'root'@'localhost'`，导致 `MysqlSaver` 自动建表失败。
+- 当前 Docker Desktop daemon 未运行，无法通过 `docker compose up -d` 直接拉起本地全量中间件栈。
+- 当前 shell 未配置真实 `ALI_BAI_LIAN_API_KEY` 与 `TAVILY_API_KEY`。启动验证使用了占位值，只能验证容器装配，不能验证真实模型与联网搜索能力。
+- 前端构建已通过 `npm run build` 验证，后续联调仍需要后端和中间件完整启动。
 
 ## 部署前仍需确认
 
 - 生产环境必须显式设置 `SPRING_PROFILES_ACTIVE=prod`。
 - MySQL、PostgreSQL、Redis、Kafka、Elasticsearch、Neo4j、MinIO 不建议直接使用本地 `docker-compose.yml` 暴露到公网。
+- 本地启动前需要确认 MySQL 账号密码与 `application.yaml` 一致，默认是 `root` / `root`，并确保 `super_agent_business_chat` 可创建或已初始化。
 - 生产 Kafka 如果关闭自动建 topic，需要手动创建：
   - `Lin-RagAgent-document-parse-route`
   - `Lin-RagAgent-document-index-build`
