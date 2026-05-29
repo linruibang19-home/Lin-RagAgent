@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.model.trace;
+package org.Lin.ai.chatagent.model.trace;
 
 /**
  * @program: 企业级别深度设计 AI Agent。

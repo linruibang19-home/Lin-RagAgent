@@ -1,4 +1,4 @@
-﻿package org.Lin.example;
+package org.Lin.example;
 
 import com.google.gson.*;
 import okhttp3.*;

@@ -1,4 +1,4 @@
-﻿package org.Lin.swagger;
+package org.Lin.swagger;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;

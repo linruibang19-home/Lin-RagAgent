@@ -1,4 +1,4 @@
-﻿package org.Lin.database.mybatisplus;
+package org.Lin.database.mybatisplus;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;

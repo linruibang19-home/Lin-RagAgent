@@ -1,4 +1,4 @@
-﻿package org.Lin.environment;
+package org.Lin.environment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;

@@ -1,4 +1,4 @@
-﻿package org.Lin.hybrid.config;
+package org.Lin.hybrid.config;
 
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;

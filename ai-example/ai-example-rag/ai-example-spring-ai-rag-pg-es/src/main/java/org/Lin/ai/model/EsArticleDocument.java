@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.model;
+package org.Lin.ai.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

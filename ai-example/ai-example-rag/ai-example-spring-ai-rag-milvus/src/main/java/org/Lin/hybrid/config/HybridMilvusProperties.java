@@ -1,4 +1,4 @@
-﻿package org.Lin.hybrid.config;
+package org.Lin.hybrid.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

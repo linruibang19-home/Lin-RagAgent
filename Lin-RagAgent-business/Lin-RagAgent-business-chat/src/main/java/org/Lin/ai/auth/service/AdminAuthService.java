@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.service;
+package org.Lin.ai.auth.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.Lin.ai.auth.dto.AdminLoginRequest;

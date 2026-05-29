@@ -1,0 +1,71 @@
+server:
+  port: ${SERVER_PORT:9082}
+
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:super_agent_business_chat}?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=false&useSSL=${MYSQL_USE_SSL:true}
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+  ai:
+    openai:
+      api-key: ${ALI_BAI_LIAN_API_KEY}
+      embedding:
+        api-key: ${ALI_BAI_LIAN_API_KEY}
+
+app:
+  admin-auth:
+    username: ${SUPER_AGENT_ADMIN_USERNAME}
+    password: ${SUPER_AGENT_ADMIN_PASSWORD}
+    token-secret: ${SUPER_AGENT_ADMIN_TOKEN_SECRET}
+    token-expire-minutes: ${SUPER_AGENT_ADMIN_TOKEN_EXPIRE_MINUTES:720}
+  tavily:
+    enabled: ${TAVILY_ENABLED:true}
+    api-key: ${TAVILY_API_KEY}
+  manage:
+    minio:
+      endpoint: ${MINIO_ENDPOINT}
+      access-key: ${MINIO_ACCESS_KEY}
+      secret-key: ${MINIO_SECRET_KEY}
+      bucket-name: ${MINIO_BUCKET_NAME:Lin-RagAgent-document}
+    kafka:
+      auto-create-topics: ${KAFKA_AUTO_CREATE_TOPICS:false}
+    pgvector:
+      host: ${PGVECTOR_HOST}
+      port: ${PGVECTOR_PORT:5432}
+      database: ${PGVECTOR_DATABASE:super_agent_pgvector}
+      username: ${PGVECTOR_USERNAME}
+      password: ${PGVECTOR_PASSWORD}
+    elasticsearch:
+      uris:
+        - ${ELASTICSEARCH_URI}
+      username: ${ELASTICSEARCH_USERNAME}
+      password: ${ELASTICSEARCH_PASSWORD}
+    neo4j:
+      enabled: ${NEO4J_ENABLED:true}
+      uri: ${NEO4J_URI}
+      username: ${NEO4J_USERNAME}
+      password: ${NEO4J_PASSWORD}
+      database: ${NEO4J_DATABASE:neo4j}
+
+management:
+  endpoint:
+    health:
+      show-details: when_authorized
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+logging:
+  level:
+    org.springframework.ai: INFO
+    com.alibaba.cloud.ai: INFO
+    org.Lin.ai.chatagent: INFO
+    org.Lin.ai.manage: INFO

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.service;
+package org.Lin.ai.manage.service;
 
 import org.Lin.ai.manage.dto.DocumentIndexBuildDto;
 import org.Lin.ai.manage.dto.DocumentChunkQueryDto;

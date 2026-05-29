@@ -1,4 +1,4 @@
-﻿package org.Lin.hybrid.controller;
+package org.Lin.hybrid.controller;
 
 import org.Lin.hybrid.model.HybridSearchResult;
 import org.Lin.hybrid.service.HybridCollectionManager;

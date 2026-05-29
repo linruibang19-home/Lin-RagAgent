@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.model;
+package org.Lin.ai.manage.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

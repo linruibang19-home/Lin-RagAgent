@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.model;
+package org.Lin.ai.chatagent.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

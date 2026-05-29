@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.retrieve.channel;
+package org.Lin.ai.chatagent.rag.retrieve.channel;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-﻿package org.Lin.config;
+package org.Lin.config;
 
 import org.Lin.util.DateUtils;
 import com.fasterxml.jackson.core.JsonParser;

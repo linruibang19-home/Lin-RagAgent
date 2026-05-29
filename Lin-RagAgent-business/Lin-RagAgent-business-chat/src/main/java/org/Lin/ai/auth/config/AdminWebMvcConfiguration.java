@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.config;
+package org.Lin.ai.auth.config;
 
 import org.Lin.ai.auth.support.AdminAuthInterceptor;
 import org.Lin.ai.auth.support.PreviewModeInterceptor;

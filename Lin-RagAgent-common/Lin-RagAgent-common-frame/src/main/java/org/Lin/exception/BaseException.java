@@ -1,4 +1,4 @@
-﻿package org.Lin.exception;
+package org.Lin.exception;
 
 /**
  * @program: 企业级别深度设计 AI Agent。

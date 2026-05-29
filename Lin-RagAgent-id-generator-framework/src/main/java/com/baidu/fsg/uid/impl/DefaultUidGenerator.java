@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid.impl;
+package com.baidu.fsg.uid.impl;
 
 import com.baidu.fsg.uid.BitsAllocator;
 import com.baidu.fsg.uid.UidGenerator;

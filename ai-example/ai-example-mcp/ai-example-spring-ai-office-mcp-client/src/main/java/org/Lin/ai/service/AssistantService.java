@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.service;
+package org.Lin.ai.service;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.ai.chat.client.ChatClient;

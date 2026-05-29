@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.split;
+package org.Lin.ai.split;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.ai.document.Document;

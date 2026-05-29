@@ -1,4 +1,4 @@
-﻿package org.Lin.core;
+package org.Lin.core;
 
 import org.redisson.api.RDelayedQueue;
 import org.redisson.api.RedissonClient;

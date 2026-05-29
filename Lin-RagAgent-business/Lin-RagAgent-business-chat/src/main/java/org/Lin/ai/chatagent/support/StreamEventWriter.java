@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.support;
+package org.Lin.ai.chatagent.support;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.service;
+package org.Lin.ai.service;
 
 import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.McpSyncClient;

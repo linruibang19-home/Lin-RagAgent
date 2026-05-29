@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.vo;
+package org.Lin.ai.auth.vo;
 
 /**
  * 当前后台管理员信息。

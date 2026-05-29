@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid.utils;
+package com.baidu.fsg.uid.utils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

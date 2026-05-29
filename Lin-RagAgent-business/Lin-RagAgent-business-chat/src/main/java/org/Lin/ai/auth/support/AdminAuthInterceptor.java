@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.support;
+package org.Lin.ai.auth.support;
 
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;

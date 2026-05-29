@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.support;
+package org.Lin.ai.auth.support;
 
 import jakarta.servlet.http.HttpServletRequest;
 

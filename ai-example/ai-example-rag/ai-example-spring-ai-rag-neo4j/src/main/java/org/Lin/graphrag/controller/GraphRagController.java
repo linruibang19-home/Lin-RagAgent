@@ -1,4 +1,4 @@
-﻿package org.Lin.graphrag.controller;
+package org.Lin.graphrag.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.Lin.graphrag.dto.InstructorCoursesDto;

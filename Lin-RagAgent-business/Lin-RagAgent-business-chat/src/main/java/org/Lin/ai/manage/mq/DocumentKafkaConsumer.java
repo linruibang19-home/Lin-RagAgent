@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.mq;
+package org.Lin.ai.manage.mq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -7,8 +7,6 @@ import org.Lin.ai.manage.mq.message.DocumentParseRouteMessage;
 import org.Lin.ai.manage.service.DocumentAsyncProcessService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-
-import static org.Lin.constant.Constant.SPRING_INJECT_PREFIX_DISTINCTION_NAME;
 
 /**
  * @program: 企业级别深度设计 AI Agent。
@@ -30,7 +28,7 @@ public class DocumentKafkaConsumer {
         this.objectMapper = objectMapper;
     }
 
-    @KafkaListener(topics = SPRING_INJECT_PREFIX_DISTINCTION_NAME+"-"+"${app.manage.kafka.parse-topic}", groupId = "${app.manage.kafka.group-id}-parse")
+    @KafkaListener(topics = "#{@documentKafkaTopicNames.parseTopic()}", groupId = "${app.manage.kafka.group-id}-parse")
     public void consumeParseRoute(String payload) {
         try {
 
@@ -44,7 +42,7 @@ public class DocumentKafkaConsumer {
         }
     }
 
-    @KafkaListener(topics = SPRING_INJECT_PREFIX_DISTINCTION_NAME+"-"+"${app.manage.kafka.index-topic}", groupId = "${app.manage.kafka.group-id}-index")
+    @KafkaListener(topics = "#{@documentKafkaTopicNames.indexTopic()}", groupId = "${app.manage.kafka.group-id}-index")
     public void consumeIndexBuild(String payload) {
         try {
 

@@ -1,4 +1,4 @@
-﻿package org.Lin.memory.support;
+package org.Lin.memory.support;
 
 import java.util.ArrayList;
 import java.util.List;

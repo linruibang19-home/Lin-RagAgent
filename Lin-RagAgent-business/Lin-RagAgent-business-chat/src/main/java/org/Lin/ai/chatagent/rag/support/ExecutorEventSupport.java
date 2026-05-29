@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.support;
+package org.Lin.ai.chatagent.rag.support;
 
 import cn.hutool.core.util.StrUtil;
 import org.Lin.ai.chatagent.service.TaskInfo;

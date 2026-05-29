@@ -186,7 +186,7 @@ services:
     container_name: milvus-attu
     image: zilliz/attu:v2.6.3
     environment:
-      MILVUS_URL: milvus-standalone:19530
+      MILVUS_URL: standalone:19530
     ports:
       - "8000:3000"
     depends_on:

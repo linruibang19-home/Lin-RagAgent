@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.office.tool;
+package org.Lin.ai.office.tool;
 
 import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.ai.tool.annotation.ToolParam;

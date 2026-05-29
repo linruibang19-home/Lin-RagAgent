@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid.utils;
+package com.baidu.fsg.uid.utils;
 
 import org.apache.commons.lang.time.DateFormatUtils;
 

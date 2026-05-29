@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.tool;
+package org.Lin.ai.tool;
 
 import java.util.Locale;
 import java.util.Map;

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.handler.impl;
+package org.Lin.ai.handler.impl;
 
 import org.Lin.ai.handler.ReaderHandler;
 import org.springframework.ai.document.Document;

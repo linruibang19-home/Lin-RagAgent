@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.support;
+package org.Lin.ai.manage.support;
 
 import cn.hutool.core.util.StrUtil;
 import org.Lin.enums.DocumentStructureNodeTypeEnum;

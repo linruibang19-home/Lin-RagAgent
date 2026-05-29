@@ -1,4 +1,4 @@
-﻿package org.Lin.route.service;
+package org.Lin.route.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.Lin.route.model.RouteIntent;

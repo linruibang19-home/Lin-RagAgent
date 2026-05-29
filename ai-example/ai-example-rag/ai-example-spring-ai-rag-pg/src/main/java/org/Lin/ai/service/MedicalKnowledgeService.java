@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.service;
+package org.Lin.ai.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.Lin.ai.model.Disease;

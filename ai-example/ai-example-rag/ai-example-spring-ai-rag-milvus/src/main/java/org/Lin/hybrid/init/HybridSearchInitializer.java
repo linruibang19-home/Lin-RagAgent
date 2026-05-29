@@ -1,4 +1,4 @@
-﻿package org.Lin.hybrid.init;
+package org.Lin.hybrid.init;
 
 import lombok.extern.slf4j.Slf4j;
 import org.Lin.hybrid.config.HybridMilvusProperties;

@@ -1,4 +1,4 @@
-﻿package org.Lin.memory.service;
+package org.Lin.memory.service;
 
 import org.Lin.memory.model.MemoryChatResponse;
 import org.Lin.memory.support.MemoryPromptSupport;

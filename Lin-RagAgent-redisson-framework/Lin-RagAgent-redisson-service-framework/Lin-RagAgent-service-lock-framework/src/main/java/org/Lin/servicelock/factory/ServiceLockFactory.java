@@ -1,4 +1,4 @@
-﻿package org.Lin.servicelock.factory;
+package org.Lin.servicelock.factory;
 
 import org.Lin.core.ManageLocker;
 import org.Lin.servicelock.LockType;

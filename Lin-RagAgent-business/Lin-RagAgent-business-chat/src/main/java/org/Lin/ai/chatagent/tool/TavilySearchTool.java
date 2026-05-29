@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.tool;
+package org.Lin.ai.chatagent.tool;
 
 import com.alibaba.cloud.ai.graph.RunnableConfig;
 import com.alibaba.cloud.ai.graph.agent.tools.ToolContextHelper;

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.controller;
+package org.Lin.ai.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.util.StringUtils;

@@ -1,4 +1,4 @@
-﻿package org.Lin.event;
+package org.Lin.event;
 
 import cn.hutool.core.collection.CollectionUtil;
 import org.Lin.context.DelayQueueBasePart;

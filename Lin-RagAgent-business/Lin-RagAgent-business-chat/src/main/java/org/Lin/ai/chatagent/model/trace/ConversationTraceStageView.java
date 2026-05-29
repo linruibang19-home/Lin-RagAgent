@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.model.trace;
+package org.Lin.ai.chatagent.model.trace;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

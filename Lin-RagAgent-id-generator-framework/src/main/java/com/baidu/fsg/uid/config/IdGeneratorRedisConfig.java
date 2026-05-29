@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid.config;
+package com.baidu.fsg.uid.config;
 
 import com.baidu.fsg.uid.worker.WorkerIdAssigner;
 import org.springframework.beans.factory.annotation.Qualifier;

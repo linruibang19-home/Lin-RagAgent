@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.service.impl;
+package org.Lin.ai.manage.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baidu.fsg.uid.UidGenerator;

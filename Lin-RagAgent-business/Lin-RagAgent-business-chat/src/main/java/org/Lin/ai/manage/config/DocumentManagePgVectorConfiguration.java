@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.config;
+package org.Lin.ai.manage.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.zaxxer.hikari.HikariDataSource;

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.service;
+package org.Lin.ai.chatagent.service;
 
 import com.alibaba.cloud.ai.graph.RunnableConfig;
 import lombok.Data;

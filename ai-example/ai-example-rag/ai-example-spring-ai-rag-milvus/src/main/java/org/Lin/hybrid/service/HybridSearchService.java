@@ -1,4 +1,4 @@
-﻿package org.Lin.hybrid.service;
+package org.Lin.hybrid.service;
 
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.common.ConsistencyLevel;

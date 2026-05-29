@@ -1,4 +1,4 @@
-﻿package org.Lin.ai;
+package org.Lin.ai;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

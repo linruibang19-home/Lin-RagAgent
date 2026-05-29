@@ -1,4 +1,4 @@
-﻿package org.Lin.config;
+package org.Lin.config;
 
 import cn.hutool.core.date.DateTime;
 import com.fasterxml.jackson.core.JsonGenerator;

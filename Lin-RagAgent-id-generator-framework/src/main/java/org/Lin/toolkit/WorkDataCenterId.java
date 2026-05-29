@@ -1,4 +1,4 @@
-﻿package org.Lin.toolkit;
+package org.Lin.toolkit;
 
 import lombok.Data;
 

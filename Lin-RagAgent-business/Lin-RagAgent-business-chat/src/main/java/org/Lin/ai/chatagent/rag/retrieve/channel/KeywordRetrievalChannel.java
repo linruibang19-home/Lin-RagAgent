@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.retrieve.channel;
+package org.Lin.ai.chatagent.rag.retrieve.channel;
 
 import cn.hutool.core.collection.CollectionUtil;
 import org.Lin.ai.chatagent.rag.config.ChatRagProperties;

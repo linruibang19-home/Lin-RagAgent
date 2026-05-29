@@ -1,4 +1,4 @@
-﻿package org.Lin.servicelock.impl;
+package org.Lin.servicelock.impl;
 
 import org.Lin.servicelock.ServiceLocker;
 import lombok.AllArgsConstructor;

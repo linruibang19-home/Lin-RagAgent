@@ -1,4 +1,4 @@
-﻿package org.Lin.toolkit;
+package org.Lin.toolkit;
 
 /**
  * @program: 企业级别深度设计 AI Agent。

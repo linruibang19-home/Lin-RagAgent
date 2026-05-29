@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.config;
+package org.Lin.ai.chatagent.rag.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

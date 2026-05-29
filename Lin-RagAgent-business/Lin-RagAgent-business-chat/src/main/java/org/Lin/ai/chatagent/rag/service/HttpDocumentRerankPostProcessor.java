@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.service;
+package org.Lin.ai.chatagent.rag.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-﻿package org.Lin.config;
+package org.Lin.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

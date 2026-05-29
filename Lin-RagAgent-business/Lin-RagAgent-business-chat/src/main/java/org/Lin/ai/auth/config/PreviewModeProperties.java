@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.config;
+package org.Lin.ai.auth.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

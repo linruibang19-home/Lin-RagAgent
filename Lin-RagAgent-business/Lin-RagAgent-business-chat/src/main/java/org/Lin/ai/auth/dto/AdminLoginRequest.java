@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.dto;
+package org.Lin.ai.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

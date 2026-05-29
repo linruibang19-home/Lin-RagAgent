@@ -1,4 +1,4 @@
-﻿package org.Lin.hybrid.service;
+package org.Lin.hybrid.service;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

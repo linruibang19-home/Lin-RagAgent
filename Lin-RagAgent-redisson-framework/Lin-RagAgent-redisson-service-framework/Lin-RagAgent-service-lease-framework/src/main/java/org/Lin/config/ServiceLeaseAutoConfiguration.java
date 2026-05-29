@@ -1,4 +1,4 @@
-﻿package org.Lin.config;
+package org.Lin.config;
 
 import org.Lin.lease.RedisLeaseManager;
 import org.redisson.api.RedissonClient;

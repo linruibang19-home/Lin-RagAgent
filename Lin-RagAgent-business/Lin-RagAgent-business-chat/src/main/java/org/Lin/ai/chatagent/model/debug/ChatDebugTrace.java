@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.model.debug;
+package org.Lin.ai.chatagent.model.debug;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;

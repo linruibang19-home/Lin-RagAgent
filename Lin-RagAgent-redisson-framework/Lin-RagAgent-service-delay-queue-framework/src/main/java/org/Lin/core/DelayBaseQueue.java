@@ -1,4 +1,4 @@
-﻿package org.Lin.core;
+package org.Lin.core;
 
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingQueue;

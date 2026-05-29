@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.service;
+package org.Lin.ai.service;
 
 import io.modelcontextprotocol.client.McpSyncClient;
 import org.springframework.ai.chat.client.ChatClient;

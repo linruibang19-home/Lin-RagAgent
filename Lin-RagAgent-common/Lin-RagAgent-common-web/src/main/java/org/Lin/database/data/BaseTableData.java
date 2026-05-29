@@ -1,4 +1,4 @@
-﻿package org.Lin.database.data;
+package org.Lin.database.data;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

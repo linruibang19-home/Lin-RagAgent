@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.config;
+package org.Lin.ai.manage.config;
 
 import io.minio.BucketExistsArgs;
 import io.minio.MakeBucketArgs;

@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid.buffer;
+package com.baidu.fsg.uid.buffer;
 
 import com.baidu.fsg.uid.utils.NamingThreadFactory;
 import com.baidu.fsg.uid.utils.PaddedAtomicLong;

@@ -1,4 +1,4 @@
-﻿package org.Lin.util;
+package org.Lin.util;
 
 import org.Lin.constant.LockInfoType;
 import org.Lin.lockinfo.LockInfoHandle;

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.prompt;
+package org.Lin.ai.prompt;
 
 import org.springframework.ai.template.ValidationMode;
 import org.springframework.ai.template.st.StTemplateRenderer;

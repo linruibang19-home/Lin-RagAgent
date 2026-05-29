@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.controller;
+package org.Lin.ai.chatagent.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

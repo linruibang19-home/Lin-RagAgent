@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.dto;
+package org.Lin.ai.chatagent.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.config;
+package org.Lin.ai.manage.config;
 
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;

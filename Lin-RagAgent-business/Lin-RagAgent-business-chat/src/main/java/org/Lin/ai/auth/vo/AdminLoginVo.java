@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.vo;
+package org.Lin.ai.auth.vo;
 
 /**
  * 后台登录返回值。

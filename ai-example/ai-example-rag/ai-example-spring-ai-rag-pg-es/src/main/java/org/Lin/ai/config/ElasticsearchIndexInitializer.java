@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.config;
+package org.Lin.ai.config;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch.indices.ExistsRequest;

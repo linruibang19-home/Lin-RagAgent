@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.model;
+package org.Lin.ai.model;
 
 import java.util.List;
 import java.util.Map;

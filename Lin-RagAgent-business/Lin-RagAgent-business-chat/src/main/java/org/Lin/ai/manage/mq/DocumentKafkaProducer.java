@@ -1,11 +1,9 @@
-﻿package org.Lin.ai.manage.mq;
+package org.Lin.ai.manage.mq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.Lin.ai.manage.config.DocumentManageProperties;
 import org.Lin.ai.manage.mq.message.DocumentIndexBuildMessage;
 import org.Lin.ai.manage.mq.message.DocumentParseRouteMessage;
-import org.Lin.core.SpringUtil;
 import org.Lin.enums.DocumentManageCode;
 import org.Lin.exception.SuperAgentFrameException;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -25,16 +23,16 @@ public class DocumentKafkaProducer {
 
     private final ObjectMapper objectMapper;
 
-    private final DocumentManageProperties properties;
+    private final DocumentKafkaTopicNames topicNames;
 
     public void sendParseRoute(DocumentParseRouteMessage message) {
 
-        send(SpringUtil.getPrefixDistinctionName() + "-" + properties.getKafka().getParseTopic(), String.valueOf(message.getDocumentId()), message);
+        send(topicNames.parseTopic(), String.valueOf(message.getDocumentId()), message);
     }
 
     public void sendIndexBuild(DocumentIndexBuildMessage message) {
 
-        send(SpringUtil.getPrefixDistinctionName() + "-" + properties.getKafka().getIndexTopic(), String.valueOf(message.getDocumentId()), message);
+        send(topicNames.indexTopic(), String.valueOf(message.getDocumentId()), message);
     }
 
     private void send(String topic, String key, Object message) {

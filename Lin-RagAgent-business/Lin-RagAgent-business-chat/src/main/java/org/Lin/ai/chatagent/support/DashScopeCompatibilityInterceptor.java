@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.support;
+package org.Lin.ai.chatagent.support;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;

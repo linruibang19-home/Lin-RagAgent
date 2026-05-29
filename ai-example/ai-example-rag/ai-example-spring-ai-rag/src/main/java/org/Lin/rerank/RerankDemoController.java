@@ -1,4 +1,4 @@
-﻿package org.Lin.rerank;
+package org.Lin.rerank;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.document.Document;

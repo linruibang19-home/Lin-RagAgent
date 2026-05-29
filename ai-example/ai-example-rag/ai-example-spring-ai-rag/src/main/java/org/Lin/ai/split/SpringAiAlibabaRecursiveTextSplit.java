@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.split;
+package org.Lin.ai.split;
 
 import com.alibaba.cloud.ai.transformer.splitter.RecursiveCharacterTextSplitter;
 import org.springframework.ai.document.Document;

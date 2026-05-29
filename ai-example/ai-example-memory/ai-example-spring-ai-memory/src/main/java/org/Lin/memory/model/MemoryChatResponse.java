@@ -1,4 +1,4 @@
-﻿package org.Lin.memory.model;
+package org.Lin.memory.model;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid.utils;
+package com.baidu.fsg.uid.utils;
 
 /**
  * @program: 企业级别深度设计 AI Agent。

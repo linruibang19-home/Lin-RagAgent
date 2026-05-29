@@ -1,4 +1,4 @@
-﻿package org.Lin.core;
+package org.Lin.core;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

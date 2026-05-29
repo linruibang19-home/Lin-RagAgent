@@ -1,4 +1,4 @@
-﻿package org.Lin.graphrag.repository;
+package org.Lin.graphrag.repository;
 
 import org.Lin.graphrag.dto.InstructorCoursesDto;
 import org.Lin.graphrag.entity.Course;

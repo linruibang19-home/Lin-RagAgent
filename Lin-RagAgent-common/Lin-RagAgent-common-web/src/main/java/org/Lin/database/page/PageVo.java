@@ -1,4 +1,4 @@
-﻿package org.Lin.database.page;
+package org.Lin.database.page;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

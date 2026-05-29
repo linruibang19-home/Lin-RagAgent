@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.controller;
+package org.Lin.ai.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

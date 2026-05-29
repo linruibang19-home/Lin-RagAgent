@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.service;
+package org.Lin.ai.service;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.Refresh;

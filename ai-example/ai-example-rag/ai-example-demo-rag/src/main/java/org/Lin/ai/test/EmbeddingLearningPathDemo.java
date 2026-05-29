@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.test;
+package org.Lin.ai.test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

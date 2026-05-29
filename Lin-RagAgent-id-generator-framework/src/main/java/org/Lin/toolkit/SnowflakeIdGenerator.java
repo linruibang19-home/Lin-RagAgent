@@ -1,4 +1,4 @@
-﻿package org.Lin.toolkit;
+package org.Lin.toolkit;
 
 import cn.hutool.core.date.SystemClock;
 import cn.hutool.core.lang.Assert;

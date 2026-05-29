@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.test;
+package org.Lin.ai.test;
 
 import org.springframework.ai.document.Document;
 import java.util.Map;

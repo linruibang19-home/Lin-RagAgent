@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.vo;
+package org.Lin.ai.manage.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.service.impl;
+package org.Lin.ai.auth.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;

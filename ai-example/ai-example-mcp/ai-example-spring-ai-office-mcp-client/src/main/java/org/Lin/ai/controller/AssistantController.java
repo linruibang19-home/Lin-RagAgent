@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.controller;
+package org.Lin.ai.controller;
 
 import org.Lin.ai.service.AssistantService;
 import org.springframework.web.bind.annotation.PostMapping;

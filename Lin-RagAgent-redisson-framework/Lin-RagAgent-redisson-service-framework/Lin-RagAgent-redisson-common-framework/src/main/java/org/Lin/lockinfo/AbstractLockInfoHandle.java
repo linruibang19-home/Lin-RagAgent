@@ -1,4 +1,4 @@
-﻿package org.Lin.lockinfo;
+package org.Lin.lockinfo;
 
 import org.Lin.parser.ExtParameterNameDiscoverer;
 import jodd.util.StringUtil;

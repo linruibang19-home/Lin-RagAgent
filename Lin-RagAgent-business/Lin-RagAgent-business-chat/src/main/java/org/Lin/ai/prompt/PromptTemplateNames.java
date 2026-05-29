@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.prompt;
+package org.Lin.ai.prompt;
 
 /**
  * @program: 企业级别深度设计 AI Agent。

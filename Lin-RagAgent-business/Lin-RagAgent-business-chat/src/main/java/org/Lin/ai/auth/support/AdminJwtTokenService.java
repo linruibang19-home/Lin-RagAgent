@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.support;
+package org.Lin.ai.auth.support;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

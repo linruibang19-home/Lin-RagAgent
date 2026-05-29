@@ -1,4 +1,4 @@
-﻿package org.Lin.rerank;
+package org.Lin.rerank;
 
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;

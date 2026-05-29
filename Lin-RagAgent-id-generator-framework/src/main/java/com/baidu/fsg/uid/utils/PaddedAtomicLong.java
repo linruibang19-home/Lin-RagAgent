@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid.utils;
+package com.baidu.fsg.uid.utils;
 
 import java.util.concurrent.atomic.AtomicLong;
 

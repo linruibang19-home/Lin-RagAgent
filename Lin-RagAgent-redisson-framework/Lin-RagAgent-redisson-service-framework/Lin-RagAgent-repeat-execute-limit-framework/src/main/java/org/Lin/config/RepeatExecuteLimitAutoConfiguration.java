@@ -1,4 +1,4 @@
-﻿package org.Lin.config;
+package org.Lin.config;
 
 import org.Lin.constant.LockInfoType;
 import org.Lin.handle.RedissonDataHandle;

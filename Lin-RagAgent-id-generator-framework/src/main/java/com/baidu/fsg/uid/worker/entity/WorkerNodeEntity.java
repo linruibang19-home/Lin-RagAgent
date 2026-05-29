@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid.worker.entity;
+package com.baidu.fsg.uid.worker.entity;
 
 import java.util.Date;
 

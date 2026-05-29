@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.data;
+package org.Lin.ai.manage.data;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.model.memory;
+package org.Lin.ai.chatagent.model.memory;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

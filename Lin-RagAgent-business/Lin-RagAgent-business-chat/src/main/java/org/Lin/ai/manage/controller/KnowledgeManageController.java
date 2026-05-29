@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.controller;
+package org.Lin.ai.manage.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

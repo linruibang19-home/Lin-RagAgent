@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid;
+package com.baidu.fsg.uid;
 
 import com.baidu.fsg.uid.exception.UidGenerateException;
 

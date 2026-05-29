@@ -1,4 +1,4 @@
-﻿package org.Lin.memory.controller;
+package org.Lin.memory.controller;
 
 import lombok.AllArgsConstructor;
 import org.Lin.memory.model.MemoryChatResponse;

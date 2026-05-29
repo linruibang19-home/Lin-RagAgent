@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.service;
+package org.Lin.ai.chatagent.service;
 
 import org.Lin.ai.chatagent.model.trace.ConversationTraceStageCode;
 import org.Lin.ai.chatagent.model.trace.ConversationTraceStageState;

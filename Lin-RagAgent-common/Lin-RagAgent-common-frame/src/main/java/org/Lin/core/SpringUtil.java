@@ -1,4 +1,4 @@
-﻿package org.Lin.core;
+package org.Lin.core;
 
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;

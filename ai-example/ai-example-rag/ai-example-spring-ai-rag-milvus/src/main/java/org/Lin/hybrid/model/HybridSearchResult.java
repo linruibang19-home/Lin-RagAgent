@@ -1,4 +1,4 @@
-﻿package org.Lin.hybrid.model;
+package org.Lin.hybrid.model;
 
 /**
  * @program: 企业级别深度设计 AI Agent。 

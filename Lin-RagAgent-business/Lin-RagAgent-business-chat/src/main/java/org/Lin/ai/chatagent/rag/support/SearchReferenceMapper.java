@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.support;
+package org.Lin.ai.chatagent.rag.support;
 
 import org.Lin.ai.chatagent.model.SearchReference;
 import org.Lin.ai.manage.support.DocumentKnowledgeMetadataKeys;

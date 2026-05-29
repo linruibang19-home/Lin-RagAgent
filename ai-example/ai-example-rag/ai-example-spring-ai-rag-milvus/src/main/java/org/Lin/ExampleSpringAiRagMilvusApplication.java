@@ -1,4 +1,4 @@
-﻿package org.Lin;
+package org.Lin;
 
 import org.Lin.ai.config.MilvusDemoProperties;
 import org.Lin.hybrid.config.HybridMilvusProperties;

@@ -1,4 +1,4 @@
-﻿package org.Lin.exception;
+package org.Lin.exception;
 
 import org.Lin.common.ApiResponse;
 import org.Lin.enums.BaseCode;

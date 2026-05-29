@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid.worker;
+package com.baidu.fsg.uid.worker;
 
 import com.baidu.fsg.uid.utils.ValuedEnum;
 

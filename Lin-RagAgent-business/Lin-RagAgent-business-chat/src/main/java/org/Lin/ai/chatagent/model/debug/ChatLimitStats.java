@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.model.debug;
+package org.Lin.ai.chatagent.model.debug;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

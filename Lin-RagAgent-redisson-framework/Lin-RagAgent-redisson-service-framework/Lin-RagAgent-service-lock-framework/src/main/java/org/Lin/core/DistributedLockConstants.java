@@ -1,4 +1,4 @@
-﻿package org.Lin.core;
+package org.Lin.core;
 
 /**
  * @program: 企业级别深度设计 AI Agent。

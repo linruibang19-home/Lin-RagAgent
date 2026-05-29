@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.model;
+package org.Lin.ai.chatagent.rag.model;
 
 /**
  * @program: 企业级别深度设计 AI Agent。

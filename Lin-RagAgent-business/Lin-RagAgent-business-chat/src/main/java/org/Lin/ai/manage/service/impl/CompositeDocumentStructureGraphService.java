@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.service.impl;
+package org.Lin.ai.manage.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

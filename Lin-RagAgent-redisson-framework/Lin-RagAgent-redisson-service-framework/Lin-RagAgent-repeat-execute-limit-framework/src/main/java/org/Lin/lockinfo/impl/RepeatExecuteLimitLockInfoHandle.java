@@ -1,4 +1,4 @@
-﻿package org.Lin.lockinfo.impl;
+package org.Lin.lockinfo.impl;
 
 import org.Lin.lockinfo.AbstractLockInfoHandle;
 

@@ -1,4 +1,4 @@
-﻿package org.Lin.enums;
+package org.Lin.enums;
 
 /**
  * @program: 企业级别深度设计 AI Agent。

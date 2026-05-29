@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.service;
+package org.Lin.ai.chatagent.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.Lin.ai.chatagent.model.ChannelExecutionView;

@@ -1,4 +1,4 @@
-﻿package org.Lin.database.dto;
+package org.Lin.database.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.media.Schema.RequiredMode;

@@ -1,4 +1,4 @@
-﻿package com.baidu.fsg.uid.utils;
+package com.baidu.fsg.uid.utils;
 
 import org.springframework.util.Assert;
 

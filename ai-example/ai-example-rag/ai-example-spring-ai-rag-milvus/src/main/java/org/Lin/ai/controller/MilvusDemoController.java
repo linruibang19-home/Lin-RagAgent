@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.controller;
+package org.Lin.ai.controller;
 
 import jakarta.validation.Valid;
 import org.Lin.ai.model.MilvusChunkRequest;

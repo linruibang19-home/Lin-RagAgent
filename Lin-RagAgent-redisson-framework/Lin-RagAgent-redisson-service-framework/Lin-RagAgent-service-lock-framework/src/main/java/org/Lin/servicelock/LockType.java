@@ -1,4 +1,4 @@
-﻿package org.Lin.servicelock;
+package org.Lin.servicelock;
 
 /**
  * @program: 企业级别深度设计 AI Agent。

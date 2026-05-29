@@ -1,4 +1,4 @@
-﻿package org.Lin.route.model;
+package org.Lin.route.model;
 
 import java.util.Locale;
 

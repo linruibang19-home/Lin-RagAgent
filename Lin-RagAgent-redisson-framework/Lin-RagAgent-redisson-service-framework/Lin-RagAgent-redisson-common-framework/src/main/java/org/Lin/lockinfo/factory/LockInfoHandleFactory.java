@@ -1,4 +1,4 @@
-﻿package org.Lin.lockinfo.factory;
+package org.Lin.lockinfo.factory;
 
 import org.Lin.lockinfo.LockInfoHandle;
 import org.springframework.beans.BeansException;

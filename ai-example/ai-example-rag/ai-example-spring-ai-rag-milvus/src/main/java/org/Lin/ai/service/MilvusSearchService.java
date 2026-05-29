@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.service;
+package org.Lin.ai.service;
 
 import org.Lin.ai.config.MilvusDemoProperties;
 import org.Lin.ai.model.MilvusSearchResult;

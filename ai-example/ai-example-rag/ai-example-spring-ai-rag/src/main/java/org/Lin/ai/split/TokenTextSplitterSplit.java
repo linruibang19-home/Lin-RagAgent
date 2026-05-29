@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.split;
+package org.Lin.ai.split;
 
 import org.springframework.ai.document.Document;
 import org.springframework.ai.transformer.splitter.TokenTextSplitter;

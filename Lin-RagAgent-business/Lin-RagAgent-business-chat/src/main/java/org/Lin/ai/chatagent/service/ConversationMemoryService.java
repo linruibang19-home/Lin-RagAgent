@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.service;
+package org.Lin.ai.chatagent.service;
 
 import org.Lin.ai.chatagent.model.ConversationMemorySummaryView;
 import org.Lin.ai.chatagent.model.memory.ConversationMemoryContext;

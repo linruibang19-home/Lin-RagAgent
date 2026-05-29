@@ -1,4 +1,4 @@
-﻿package org.Lin.servicelock.annotion;
+package org.Lin.servicelock.annotion;
 
 import org.Lin.servicelock.LockType;
 import org.Lin.servicelock.info.LockTimeOutStrategy;

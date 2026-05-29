@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.service;
+package org.Lin.ai.service;
 
 import io.milvus.client.MilvusServiceClient;
 import io.milvus.grpc.DescribeCollectionResponse;

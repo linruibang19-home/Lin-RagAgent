@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.executor;
+package org.Lin.ai.chatagent.rag.executor;
 
 import cn.hutool.core.util.StrUtil;
 import org.Lin.ai.chatagent.model.trace.ConversationTraceStageCode;

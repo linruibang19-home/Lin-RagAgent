@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.service;
+package org.Lin.ai.chatagent.rag.service;
 
 import cn.hutool.core.util.StrUtil;
 import org.Lin.ai.chatagent.model.SearchReference;

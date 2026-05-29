@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.auth.controller;
+package org.Lin.ai.auth.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

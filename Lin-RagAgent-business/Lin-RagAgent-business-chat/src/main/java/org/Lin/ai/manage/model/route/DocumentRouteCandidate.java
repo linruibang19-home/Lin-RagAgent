@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.model.route;
+package org.Lin.ai.manage.model.route;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

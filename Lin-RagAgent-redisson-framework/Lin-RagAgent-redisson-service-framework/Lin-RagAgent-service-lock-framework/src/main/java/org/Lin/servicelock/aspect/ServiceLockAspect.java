@@ -1,4 +1,4 @@
-﻿package org.Lin.servicelock.aspect;
+package org.Lin.servicelock.aspect;
 
 import org.Lin.constant.LockInfoType;
 import org.Lin.lockinfo.LockInfoHandle;

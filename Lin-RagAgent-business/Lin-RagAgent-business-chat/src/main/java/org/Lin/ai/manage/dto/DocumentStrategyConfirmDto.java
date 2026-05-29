@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.dto;
+package org.Lin.ai.manage.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;

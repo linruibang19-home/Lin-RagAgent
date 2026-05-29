@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.mq.message;
+package org.Lin.ai.manage.mq.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

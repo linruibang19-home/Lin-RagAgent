@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.model;
+package org.Lin.ai.chatagent.rag.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

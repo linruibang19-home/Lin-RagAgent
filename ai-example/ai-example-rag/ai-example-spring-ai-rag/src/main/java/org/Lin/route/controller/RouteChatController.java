@@ -1,4 +1,4 @@
-﻿package org.Lin.route.controller;
+package org.Lin.route.controller;
 
 import lombok.AllArgsConstructor;
 import org.Lin.route.model.RouteChatResponse;

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.util;
+package org.Lin.ai.util;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.ai.document.Document;

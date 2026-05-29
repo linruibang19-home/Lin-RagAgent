@@ -1,4 +1,4 @@
-﻿package org.Lin.enums;
+package org.Lin.enums;
 
 import java.util.Arrays;
 import java.util.Comparator;

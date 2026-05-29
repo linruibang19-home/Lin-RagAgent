@@ -1,4 +1,4 @@
-﻿package org.Lin.locallock;
+package org.Lin.locallock;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;

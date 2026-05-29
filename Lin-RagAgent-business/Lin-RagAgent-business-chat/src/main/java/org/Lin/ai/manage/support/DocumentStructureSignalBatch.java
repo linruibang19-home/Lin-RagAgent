@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.support;
+package org.Lin.ai.manage.support;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.init;
+package org.Lin.ai.init;
 
 import lombok.extern.slf4j.Slf4j;
 import org.Lin.ai.config.MilvusDemoProperties;

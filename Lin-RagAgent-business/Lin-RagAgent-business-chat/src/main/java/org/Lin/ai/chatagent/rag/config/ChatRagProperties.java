@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.rag.config;
+package org.Lin.ai.chatagent.rag.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

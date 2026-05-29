@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.manage.model.graph;
+package org.Lin.ai.manage.model.graph;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;

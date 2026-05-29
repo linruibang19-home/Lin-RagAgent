@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.controller;
+package org.Lin.ai.controller;
 
 import org.Lin.ai.service.DocumentPreprocessService;
 import org.springframework.ai.document.Document;

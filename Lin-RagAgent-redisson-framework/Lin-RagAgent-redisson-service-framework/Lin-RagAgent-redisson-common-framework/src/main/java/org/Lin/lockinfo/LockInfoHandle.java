@@ -1,4 +1,4 @@
-﻿package org.Lin.lockinfo;
+package org.Lin.lockinfo;
 
 import org.aspectj.lang.JoinPoint;
 

@@ -1,4 +1,4 @@
-﻿package org.Lin.parser;
+package org.Lin.parser;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

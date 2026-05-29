@@ -1,4 +1,4 @@
-﻿package org.Lin.graphrag.dto;
+package org.Lin.graphrag.dto;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.service;
+package org.Lin.ai.chatagent.service;
 
 import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;

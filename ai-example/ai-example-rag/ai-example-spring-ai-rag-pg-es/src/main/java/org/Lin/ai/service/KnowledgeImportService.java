@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.service;
+package org.Lin.ai.service;
 
 import cn.hutool.core.util.IdUtil;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-﻿package org.Lin.graphrag.entity;
+package org.Lin.graphrag.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

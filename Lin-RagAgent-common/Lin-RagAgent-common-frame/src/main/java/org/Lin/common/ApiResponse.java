@@ -1,4 +1,4 @@
-﻿package org.Lin.common;
+package org.Lin.common;
 
 import lombok.Data;
 import org.Lin.enums.BaseCode;

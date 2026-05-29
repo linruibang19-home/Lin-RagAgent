@@ -1,4 +1,4 @@
-﻿package org.Lin.constant;
+package org.Lin.constant;
 
 /**
  * @program: 企业级别深度设计 AI Agent。

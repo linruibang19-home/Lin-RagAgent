@@ -1,4 +1,4 @@
-﻿package org.Lin.parser;
+package org.Lin.parser;
 
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.NativeDetector;

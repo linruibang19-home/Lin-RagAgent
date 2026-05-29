@@ -1,4 +1,4 @@
-﻿package org.Lin.route.model;
+package org.Lin.route.model;
 
 /**
  * @program: 企业级别深度设计 AI Agent。 

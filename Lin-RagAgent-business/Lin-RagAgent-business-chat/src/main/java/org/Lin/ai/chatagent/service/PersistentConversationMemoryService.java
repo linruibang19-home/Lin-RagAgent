@@ -1,4 +1,4 @@
-﻿package org.Lin.ai.chatagent.service;
+package org.Lin.ai.chatagent.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.baidu.fsg.uid.UidGenerator;
