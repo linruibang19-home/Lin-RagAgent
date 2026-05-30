@@ -67,7 +67,7 @@ public class OpenSearchKnowledgeRouteIndexService implements KnowledgeRouteIndex
     private final SuperAgentDocumentMapper documentMapper;
     private final SuperAgentDocumentProfileMapper documentProfileMapper;
     private final SuperAgentTopicDocumentRelationMapper topicDocumentRelationMapper;
-    
+
 
     @Override
     public void refreshIfNeeded() {
