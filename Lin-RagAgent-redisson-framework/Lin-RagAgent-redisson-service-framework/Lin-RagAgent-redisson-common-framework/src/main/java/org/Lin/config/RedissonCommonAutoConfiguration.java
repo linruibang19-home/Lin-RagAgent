@@ -36,7 +36,11 @@ public class RedissonCommonAutoConfiguration {
         Config config = new Config();
         String prefix = "redis://";
         Method method = ReflectionUtils.findMethod(RedisProperties.class, "isSsl");
-        if (method != null && (Boolean)ReflectionUtils.invokeMethod(method, redisProperties)) {
+        boolean sslEnabled = method != null && (Boolean) ReflectionUtils.invokeMethod(method, redisProperties);
+        if (!sslEnabled && redisProperties.getSsl() != null) {
+            sslEnabled = redisProperties.getSsl().isEnabled();
+        }
+        if (sslEnabled) {
             prefix = "rediss://";
         }
         config.useSingleServer()

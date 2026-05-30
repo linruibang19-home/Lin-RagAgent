@@ -8,11 +8,11 @@
 | --- | --- | --- | --- |
 | Vue 前端 | Vercel | `kuritian.online`、`www.kuritian.online` | 静态站点，优先使用免费档 |
 | Spring Boot 后端 | Render Web Service | `api.kuritian.online` | 使用仓库根目录 `Dockerfile` 构建 |
-| MySQL | 托管 MySQL | 仅后端访问 | 保存业务数据、会话和任务状态 |
-| PostgreSQL + pgvector | Render Postgres 或其他托管 PostgreSQL | 仅后端访问 | 保存向量数据 |
-| Redis | Render Key Value 或其他托管 Redis | 仅后端访问 | 缓存、租约和分布式锁 |
-| Kafka | 托管 Kafka | 仅后端访问 | 文档解析和索引构建异步任务 |
-| Elasticsearch | 托管 Elasticsearch 或 Render Private Service | 仅后端访问 | 关键词检索 |
+| MySQL | Aiven MySQL | 仅后端访问 | 保存业务数据、会话和任务状态 |
+| PostgreSQL + pgvector | Aiven PostgreSQL | 仅后端访问 | 保存向量数据 |
+| Redis | Aiven Valkey | 仅后端访问 | 缓存、租约和分布式锁 |
+| Kafka | Aiven Kafka | 仅后端访问 | 文档解析和索引构建异步任务 |
+| Elasticsearch | Aiven OpenSearch | 仅后端访问 | 关键词检索，使用 Elasticsearch 客户端兼容协议 |
 | 对象存储 | MinIO 或兼容 S3 的对象存储 | 仅后端访问 | 保存上传文件和解析文本 |
 | Neo4j | 暂时关闭 | 无 | 首版设置 `NEO4J_ENABLED=false`，结构图逻辑回退到 MySQL |
 
@@ -54,7 +54,7 @@ Vercel 免费档适合托管当前 Vue 前端。Render 免费 Web Service 会在
 | --- | --- |
 | `MYSQL_HOST`、`MYSQL_USERNAME`、`MYSQL_PASSWORD` | 托管 MySQL 连接信息 |
 | `REDIS_HOST`、`REDIS_PASSWORD` | 托管 Redis 连接信息 |
-| `KAFKA_BOOTSTRAP_SERVERS` | 托管 Kafka Broker 地址 |
+| `KAFKA_BOOTSTRAP_SERVERS`、`KAFKA_SASL_USERNAME`、`KAFKA_SASL_PASSWORD` | 托管 Kafka SASL Broker 地址和凭据 |
 | `MINIO_ENDPOINT`、`MINIO_ACCESS_KEY`、`MINIO_SECRET_KEY` | 对象存储连接信息 |
 | `PGVECTOR_HOST`、`PGVECTOR_USERNAME`、`PGVECTOR_PASSWORD` | PostgreSQL + pgvector 连接信息 |
 | `ELASTICSEARCH_URI`、`ELASTICSEARCH_USERNAME`、`ELASTICSEARCH_PASSWORD` | Elasticsearch 连接信息 |
@@ -66,12 +66,30 @@ Vercel 免费档适合托管当前 Vue 前端。Render 免费 Web Service 会在
 
 ### 数据初始化
 
-1. MySQL 执行 `sql/Mysql/create_database_mysql.sql` 和 `sql/Mysql/create_table_mysql.sql`。
+1. MySQL 连接 Aiven 默认数据库 `defaultdb`，执行 `sql/Mysql/create_table_mysql.sql`。
 2. PostgreSQL 启用扩展：`CREATE EXTENSION IF NOT EXISTS vector;`
-3. PostgreSQL 执行 `sql/PostgresSql/create_table_postgres_sql.sql`。
+3. PostgreSQL 连接 Aiven 默认数据库 `defaultdb`，执行 `sql/PostgresSql/create_table_postgres_sql.sql`。
 4. Kafka 创建以下 Topic：
    - `Lin-RagAgent-document-parse-route`
    - `Lin-RagAgent-document-index-build`
+
+### Aiven 免费服务映射
+
+| Aiven 服务 | Render 环境变量 | 取值位置 |
+| --- | --- | --- |
+| `lin-ragagent-mysql` | `MYSQL_HOST`、`MYSQL_PORT`、`MYSQL_USERNAME`、`MYSQL_PASSWORD` | MySQL Overview 中的 Connection information |
+| `lin-ragagent-pgvector` | `PGVECTOR_HOST`、`PGVECTOR_PORT`、`PGVECTOR_USERNAME`、`PGVECTOR_PASSWORD` | PostgreSQL Overview 中的 Connection information |
+| `lin-ragagent-redis` | `REDIS_HOST`、`REDIS_PORT`、`REDIS_PASSWORD` | Valkey Overview 中的 Connection information |
+| `lin-ragagent-kafka` | `KAFKA_BOOTSTRAP_SERVERS`、`KAFKA_SASL_USERNAME`、`KAFKA_SASL_PASSWORD` | Kafka Overview 中开启 SASL 后的连接信息 |
+| `lin-ragagent-search` | `ELASTICSEARCH_URI`、`ELASTICSEARCH_USERNAME`、`ELASTICSEARCH_PASSWORD` | OpenSearch Overview 中的 Service URI 和凭据 |
+
+演示环境默认使用 Aiven 的 TLS 连接：
+
+- MySQL：`MYSQL_SSL_MODE=REQUIRED`
+- PostgreSQL：`PGVECTOR_SSLMODE=require`
+- Valkey：`REDIS_SSL_ENABLED=true`
+- Kafka：`KAFKA_SECURITY_PROTOCOL=SASL_SSL`、`KAFKA_SASL_MECHANISM=SCRAM-SHA-256`
+- OpenSearch：填写 `https://` 开头的 Service URI
 
 ## 5. 部署 Vercel 前端
 

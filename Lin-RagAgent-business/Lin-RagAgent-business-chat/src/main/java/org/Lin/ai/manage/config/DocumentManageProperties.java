@@ -93,6 +93,8 @@ public class DocumentManageProperties {
 
         private String password = "postgres";
 
+        private String sslMode = "disable";
+
         private String poolName = "Lin-RagAgent-manage-pgvector-hikari";
 
         private Integer maximumPoolSize = 5;

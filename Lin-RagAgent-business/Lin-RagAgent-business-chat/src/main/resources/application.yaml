@@ -316,6 +316,8 @@ app:
       username: postgres
       # PostgreSQL 密码。
       password: postgres
+      # PostgreSQL SSL 模式。本地 Docker 关闭；Aiven 等托管服务通常使用 require。
+      ssl-mode: disable
       # 连接池名称，方便日志和监控定位。
       pool-name: Lin-RagAgent-manage-pgvector-hikari
       # 连接池最大连接数。

@@ -17,6 +17,8 @@
 - 在 README 首页直接展示聊天问答、文档接入、异步索引构建和 Chunk 验证等代表性截图，完整截图集仍可按需展开。
 - 增加 Render 后端容器、Blueprint、Vercel SPA 代理配置和 `kuritian.online` 上线操作手册，支持先使用平台临时域名验证，再绑定正式域名。
 - 将生产环境端口调整为优先读取平台注入的 `PORT`，同时保留本地 `SERVER_PORT` 回退值。
+- 增加 Aiven MySQL、PostgreSQL、Valkey、Kafka 和 OpenSearch 的 TLS 连接配置，并修正 Redisson 对 Spring Boot 3.5 Redis SSL 开关的识别逻辑。
+- Render 演示模板默认使用 Aiven 免费数据库自带的 `defaultdb`，减少额外数据库创建步骤。
 
 ## 当前启动验证状态
 

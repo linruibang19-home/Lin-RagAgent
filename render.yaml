@@ -15,20 +15,30 @@ services:
       - key: MYSQL_PORT
         value: "3306"
       - key: MYSQL_DATABASE
-        value: super_agent_business_chat
+        value: defaultdb
       - key: MYSQL_USERNAME
         sync: false
       - key: MYSQL_PASSWORD
         sync: false
-      - key: MYSQL_USE_SSL
-        value: "true"
+      - key: MYSQL_SSL_MODE
+        value: REQUIRED
       - key: REDIS_HOST
         sync: false
       - key: REDIS_PORT
         value: "6379"
       - key: REDIS_PASSWORD
         sync: false
+      - key: REDIS_SSL_ENABLED
+        value: "true"
       - key: KAFKA_BOOTSTRAP_SERVERS
+        sync: false
+      - key: KAFKA_SECURITY_PROTOCOL
+        value: SASL_SSL
+      - key: KAFKA_SASL_MECHANISM
+        value: SCRAM-SHA-256
+      - key: KAFKA_SASL_USERNAME
+        sync: false
+      - key: KAFKA_SASL_PASSWORD
         sync: false
       - key: KAFKA_AUTO_CREATE_TOPICS
         value: "false"
@@ -45,11 +55,13 @@ services:
       - key: PGVECTOR_PORT
         value: "5432"
       - key: PGVECTOR_DATABASE
-        value: super_agent_pgvector
+        value: defaultdb
       - key: PGVECTOR_USERNAME
         sync: false
       - key: PGVECTOR_PASSWORD
         sync: false
+      - key: PGVECTOR_SSLMODE
+        value: require
       - key: ELASTICSEARCH_URI
         sync: false
       - key: ELASTICSEARCH_USERNAME

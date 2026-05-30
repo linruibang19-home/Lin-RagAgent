@@ -52,6 +52,9 @@ public class DocumentManagePgVectorConfiguration {
         if (StrUtil.isNotBlank(pg.getSchema())) {
             jdbcUrl.append("&currentSchema=").append(pg.getSchema());
         }
+        if (StrUtil.isNotBlank(pg.getSslMode())) {
+            jdbcUrl.append("&sslmode=").append(pg.getSslMode());
+        }
         return jdbcUrl.toString();
     }
 
