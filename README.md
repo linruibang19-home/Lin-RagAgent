@@ -76,6 +76,47 @@
 
 这套观测能力用于定位联网工具失败、用户主动取消请求、RAG 证据不足和索引链路异常等问题，便于在部署后持续排查业务状态。
 
+### 实测截图集
+
+以下截图来自本地 Docker 环境的实际操作过程，覆盖聊天页面、联网问答、知识路由、文档接入、策略配置、异步索引构建、Chunk 验证、任务详情和会话观测等页面。
+
+<details>
+<summary>展开查看全部 16 张实测截图</summary>
+
+![Lin-RagAgent 实测截图 01](需要的例子演示/截图/03c008b3-c492-417c-ae31-67be3d343153.png)
+
+![Lin-RagAgent 实测截图 02](需要的例子演示/截图/1058569e-bc9e-4348-8493-76febfd33eb7.png)
+
+![Lin-RagAgent 实测截图 03](需要的例子演示/截图/6094c010-0654-4627-8861-8b688ffe8cf7.png)
+
+![Lin-RagAgent 实测截图 04](需要的例子演示/截图/8ceb4b4b-e521-4e8e-8f9e-ebc750a6d5cf.png)
+
+![Lin-RagAgent 实测截图 05](需要的例子演示/截图/0d7a1fe4-21c6-465d-a709-fde1ca1d595e.png)
+
+![Lin-RagAgent 实测截图 06](需要的例子演示/截图/86971676-0272-46c7-b216-ec14881c8e86.png)
+
+![Lin-RagAgent 实测截图 07](需要的例子演示/截图/1ad708ac-4b4d-495d-8260-6aad1cc8c32a.png)
+
+![Lin-RagAgent 实测截图 08](需要的例子演示/截图/604f6b89-1179-4bc7-a714-d951fdf8db2b.png)
+
+![Lin-RagAgent 实测截图 09](需要的例子演示/截图/ec576bee-6de3-42a6-84d7-9fd0f4f25414.png)
+
+![Lin-RagAgent 实测截图 10](需要的例子演示/截图/4855d817-6df2-42dc-a948-1218d7729806.png)
+
+![Lin-RagAgent 实测截图 11](需要的例子演示/截图/80789796-3aac-444e-b77c-03dfd3319418.png)
+
+![Lin-RagAgent 实测截图 12](需要的例子演示/截图/021e338f-f0c2-48ef-8cdf-d0e36fea2e65.png)
+
+![Lin-RagAgent 实测截图 13](需要的例子演示/截图/9348d62d-6f9d-4395-bb35-3db3db7de498.png)
+
+![Lin-RagAgent 实测截图 14](需要的例子演示/截图/0b45ffa7-2f89-4ac8-9d20-c42ceccb887d.png)
+
+![Lin-RagAgent 实测截图 15](需要的例子演示/截图/f9d14115-7882-46d0-bd7b-3ed70fb444aa.png)
+
+![Lin-RagAgent 实测截图 16](需要的例子演示/截图/1fc4c9cc-a44d-4b93-a36c-93cf9784aba1.png)
+
+</details>
+
 ---
 
 ## 项目架构
