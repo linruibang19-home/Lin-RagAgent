@@ -23,6 +23,7 @@
 | 文件 | 用途 |
 | --- | --- |
 | `Dockerfile` | 在 Render 构建 Spring Boot 后端镜像 |
+| `scripts/render-entrypoint.sh` | 启动时将 Aiven 项目 CA 追加到 Java truststore |
 | `.dockerignore` | 减少后端镜像构建上下文 |
 | `render.yaml` | 创建 Render 后端 Web Service，并声明生产环境变量 |
 | `vue/vercel.json` | 配置 Vue SPA 回退，并将前端 API 请求代理到 `https://api.kuritian.online` |
@@ -62,6 +63,7 @@ Vercel 免费档适合托管当前 Vue 前端。Render 免费 Web Service 会在
 | `ALI_BAI_LIAN_API_KEY` | 阿里云百炼 API Key |
 | `TAVILY_API_KEY` | Tavily 联网搜索 API Key |
 | `SUPER_AGENT_ADMIN_USERNAME`、`SUPER_AGENT_ADMIN_PASSWORD` | 管理后台账号密码 |
+| `AIVEN_CA_CERT` | Aiven Kafka Overview 中下载的项目 CA 证书完整 PEM 文本 |
 
 首次上线前必须重新生成已经在聊天或截图中暴露过的 API Key 和密码。
 
@@ -90,6 +92,7 @@ Vercel 免费档适合托管当前 Vue 前端。Render 免费 Web Service 会在
 - PostgreSQL：`PGVECTOR_SSLMODE=require`
 - Valkey：`REDIS_SSL_ENABLED=true`
 - Kafka：`KAFKA_SECURITY_PROTOCOL=SASL_SSL`、`KAFKA_SASL_MECHANISM=SCRAM-SHA-256`
+- Aiven 私有 CA：将项目 CA 证书完整 PEM 文本写入 `AIVEN_CA_CERT`，容器启动时会追加到 Java truststore
 - OpenSearch：填写 `https://` 开头的 Service URI
 
 ## 5. 部署 Vercel 前端

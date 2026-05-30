@@ -20,6 +20,7 @@
 - 增加 Aiven MySQL、PostgreSQL、Valkey、Kafka 和 OpenSearch 的 TLS 连接配置，并修正 Redisson 对 Spring Boot 3.5 Redis SSL 开关的识别逻辑。
 - Render 演示模板默认使用 Aiven 免费数据库自带的 `defaultdb`，减少额外数据库创建步骤。
 - Render 演示后端固定部署到新加坡区域，减少访问 Aiven 亚太免费实例的网络延迟。
+- Render 容器启动时支持从 `AIVEN_CA_CERT` 导入 Aiven 项目 CA，供 Valkey 和 Kafka TLS 连接复用。
 
 ## 当前启动验证状态
 

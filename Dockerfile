@@ -11,7 +11,9 @@ FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 COPY --from=builder /workspace/app.jar /app/app.jar
+COPY scripts/render-entrypoint.sh /app/render-entrypoint.sh
+RUN chmod +x /app/render-entrypoint.sh
 
 EXPOSE 10000
 
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["/app/render-entrypoint.sh"]
