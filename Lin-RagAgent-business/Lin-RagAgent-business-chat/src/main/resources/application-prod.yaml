@@ -26,6 +26,9 @@ spring:
         api-key: ${ALI_BAI_LIAN_API_KEY}
 
 app:
+  web:
+    cors:
+      allowed-origin-patterns: ${CORS_ALLOWED_ORIGIN_PATTERNS:https://*.vercel.app,https://kuritian.online,https://www.kuritian.online}
   admin-auth:
     username: ${SUPER_AGENT_ADMIN_USERNAME}
     password: ${SUPER_AGENT_ADMIN_PASSWORD}
