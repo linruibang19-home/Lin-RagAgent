@@ -67,6 +67,8 @@ services:
         value: require
       - key: ELASTICSEARCH_URI
         sync: false
+      - key: ELASTICSEARCH_ENABLED
+        value: "false"
       - key: ELASTICSEARCH_USERNAME
         sync: false
       - key: ELASTICSEARCH_PASSWORD

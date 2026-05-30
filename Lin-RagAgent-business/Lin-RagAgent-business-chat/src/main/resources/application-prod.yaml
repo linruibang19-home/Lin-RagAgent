@@ -50,6 +50,7 @@ app:
       password: ${PGVECTOR_PASSWORD}
       ssl-mode: ${PGVECTOR_SSLMODE:require}
     elasticsearch:
+      enabled: ${ELASTICSEARCH_ENABLED:false}
       uris:
         - ${ELASTICSEARCH_URI}
       username: ${ELASTICSEARCH_USERNAME}
