@@ -1,14 +1,13 @@
 package org.Lin.ai.manage.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import org.opensearch.client.opensearch.OpenSearchClient;
-import org.opensearch.client.opensearch._types.FieldValue;
-import org.opensearch.client.opensearch._types.Refresh;
-import org.opensearch.client.opensearch._types.query_dsl.TextQueryType;
-import org.opensearch.client.opensearch.core.BulkRequest;
-import org.opensearch.client.opensearch.core.BulkResponse;
-import org.opensearch.client.opensearch.core.SearchResponse;
-import org.opensearch.client.opensearch.core.search.Hit;
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.Refresh;
+import co.elastic.clients.elasticsearch._types.query_dsl.TextQueryType;
+import co.elastic.clients.elasticsearch.core.BulkRequest;
+import co.elastic.clients.elasticsearch.core.BulkResponse;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,7 +58,7 @@ public class ElasticsearchKnowledgeRouteIndexService implements KnowledgeRouteIn
     private static final AtomicLong LAST_REFRESH_TIME = new AtomicLong(0L);
 
     @Qualifier("documentManageElasticsearchClient")
-    private final OpenSearchClient elasticsearchClient;
+    private final ElasticsearchClient elasticsearchClient;
     private final DocumentManageProperties properties;
     private final SuperAgentKnowledgeScopeNodeMapper scopeNodeMapper;
     private final SuperAgentKnowledgeTopicNodeMapper topicNodeMapper;
@@ -99,7 +98,7 @@ public class ElasticsearchKnowledgeRouteIndexService implements KnowledgeRouteIn
                     .index(properties.getElasticsearch().getRouteIndexName())
                     .size(Math.max(1, Math.min(size, 10)))
                     .query(query -> query.bool(bool -> {
-                        bool.filter(filter -> filter.term(term -> term.field("entityType").value(FieldValue.of(entityType))));
+                        bool.filter(filter -> filter.term(term -> term.field("entityType").value(entityType)));
                         bool.should(should -> should.matchPhrase(matchPhrase -> matchPhrase
                             .field("displayName")
                             .query(routingText)
@@ -113,7 +112,7 @@ public class ElasticsearchKnowledgeRouteIndexService implements KnowledgeRouteIn
                         for (String entityTerm : entityTerms) {
                             bool.should(should -> should.term(term -> term
                                 .field("entityTerms")
-                                .value(FieldValue.of(entityTerm))
+                                .value(entityTerm)
                                 .boost(9.0f)
                             ));
                         }
@@ -158,11 +157,11 @@ public class ElasticsearchKnowledgeRouteIndexService implements KnowledgeRouteIn
                 .query(query -> query.bool(bool -> bool
                     .filter(filter -> filter.term(term -> term
                         .field("entityType")
-                        .value(FieldValue.of("document"))
+                        .value("document")
                     ))
                     .filter(filter -> filter.term(term -> term
                         .field("documentId")
-                        .value(FieldValue.of(documentId))
+                        .value(documentId)
                     ))
                 ))
             );
