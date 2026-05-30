@@ -133,6 +133,10 @@
 
 </details>
 
+## 公网上线
+
+仓库已提供 Render 后端容器、Vercel 前端配置和 `kuritian.online` 域名接入步骤。完整操作顺序、环境变量和 DNS 记录说明请查看 [kuritian.online 公网上线操作手册](ONLINE_DEPLOYMENT.md)。
+
 ---
 
 ## 项目架构

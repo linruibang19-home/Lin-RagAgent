@@ -1,0 +1,78 @@
+services:
+  - type: web
+    name: lin-ragagent-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=75.0
+      - key: MYSQL_HOST
+        sync: false
+      - key: MYSQL_PORT
+        value: "3306"
+      - key: MYSQL_DATABASE
+        value: super_agent_business_chat
+      - key: MYSQL_USERNAME
+        sync: false
+      - key: MYSQL_PASSWORD
+        sync: false
+      - key: MYSQL_USE_SSL
+        value: "true"
+      - key: REDIS_HOST
+        sync: false
+      - key: REDIS_PORT
+        value: "6379"
+      - key: REDIS_PASSWORD
+        sync: false
+      - key: KAFKA_BOOTSTRAP_SERVERS
+        sync: false
+      - key: KAFKA_AUTO_CREATE_TOPICS
+        value: "false"
+      - key: MINIO_ENDPOINT
+        sync: false
+      - key: MINIO_ACCESS_KEY
+        sync: false
+      - key: MINIO_SECRET_KEY
+        sync: false
+      - key: MINIO_BUCKET_NAME
+        value: lin-ragagent-document
+      - key: PGVECTOR_HOST
+        sync: false
+      - key: PGVECTOR_PORT
+        value: "5432"
+      - key: PGVECTOR_DATABASE
+        value: super_agent_pgvector
+      - key: PGVECTOR_USERNAME
+        sync: false
+      - key: PGVECTOR_PASSWORD
+        sync: false
+      - key: ELASTICSEARCH_URI
+        sync: false
+      - key: ELASTICSEARCH_USERNAME
+        sync: false
+      - key: ELASTICSEARCH_PASSWORD
+        sync: false
+      - key: NEO4J_ENABLED
+        value: "false"
+      - key: NEO4J_URI
+        value: bolt://disabled:7687
+      - key: NEO4J_USERNAME
+        value: neo4j
+      - key: NEO4J_PASSWORD
+        value: disabled
+      - key: ALI_BAI_LIAN_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: TAVILY_ENABLED
+        value: "true"
+      - key: SUPER_AGENT_ADMIN_USERNAME
+        sync: false
+      - key: SUPER_AGENT_ADMIN_PASSWORD
+        sync: false
+      - key: SUPER_AGENT_ADMIN_TOKEN_SECRET
+        generateValue: true

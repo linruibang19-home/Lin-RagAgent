@@ -15,14 +15,16 @@
 - 根据本地 Docker 环境实测结果补充 README 功能演示，说明开放式联网问答、知识路由、文档接入、异步索引构建、Chunk 验证和对话观测等业务链路。
 - 将本地实测截图目录纳入仓库，并在 README 中增加可折叠截图集，方便访问者直接查看完整业务操作页面。
 - 在 README 首页直接展示聊天问答、文档接入、异步索引构建和 Chunk 验证等代表性截图，完整截图集仍可按需展开。
+- 增加 Render 后端容器、Blueprint、Vercel SPA 代理配置和 `kuritian.online` 上线操作手册，支持先使用平台临时域名验证，再绑定正式域名。
+- 将生产环境端口调整为优先读取平台注入的 `PORT`，同时保留本地 `SERVER_PORT` 回退值。
 
 ## 当前启动验证状态
 
-- 后端主服务可以完成 Maven 编译与 Spring Boot 基础启动流程，已进入 Tomcat 和 Spring 容器初始化阶段。
-- 当前本机未能完整启动成功，阻塞点为 MySQL 凭据不匹配：`Access denied for user 'root'@'localhost'`，导致 `MysqlSaver` 自动建表失败。
-- 当前 Docker Desktop daemon 未运行，无法通过 `docker compose up -d` 直接拉起本地全量中间件栈。
-- 当前 shell 未配置真实 `ALI_BAI_LIAN_API_KEY` 与 `TAVILY_API_KEY`。启动验证使用了占位值，只能验证容器装配，不能验证真实模型与联网搜索能力。
-- 前端构建已通过 `npm run build` 验证，后续联调仍需要后端和中间件完整启动。
+- 后端主服务已经在本地完成 Maven 编译、Spring Boot 启动和 `/actuator/health` 检查。
+- 本地 Docker 中间件已经完成联调，包括 MySQL、PostgreSQL + pgvector、Redis、Kafka、Elasticsearch、Neo4j 和 MinIO。
+- 阿里云百炼模型调用和 Tavily 联网搜索已经完成实际业务验证，真实 Key 只保存在本地运行环境中，不提交到 Git。
+- 前端已通过 `npm run build` 验证，并完成聊天、后台文档接入、策略确认、索引构建、Chunk 检查和会话观测页面联调。
+- Render 使用的 Docker 镜像构建文件已经补齐；本机镜像验证受到 Docker Hub 网络连接失败影响，尚未完成基础镜像拉取。
 
 ## 部署前仍需确认
 
