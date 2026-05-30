@@ -12,6 +12,7 @@
 - 修正各模块 `AutoConfiguration.imports` 中遗留的 `org.javaup.*` 自动配置类名，避免 Spring Boot 启动时报 `Unable to read meta-data`。
 - 修正主业务模块 `log4j2.xml` 的日志过滤包名前缀，使其与当前 `org.Lin` 包名一致。
 - 将 Elasticsearch 默认索引名与 MinIO 默认 bucket 名改为小写，满足两类中间件的命名约束。
+- 根据本地 Docker 环境实测结果补充 README 功能演示，说明开放式联网问答、知识路由、文档接入、异步索引构建、Chunk 验证和对话观测等业务链路。
 
 ## 当前启动验证状态
 
