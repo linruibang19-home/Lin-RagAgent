@@ -42,6 +42,7 @@ Vercel 免费档适合托管当前 Vue 前端。Render 免费 Web Service 会在
 1. 登录 Render，选择 **New +** → **Blueprint**。
 2. 连接 GitHub 仓库 `linruibang19-home/Lin-RagAgent`。
 3. Render 会读取仓库根目录的 `render.yaml`，创建 `lin-ragagent-api`。
+   模板已固定使用新加坡区域，尽量减少后端访问 Aiven 亚太免费实例的网络延迟。
 4. 在 Render 控制台补充所有标记为需要手工填写的环境变量。
 5. 首次部署完成后，记录 Render 临时地址，例如 `https://lin-ragagent-api.onrender.com`。
 6. 使用 `https://<Render 临时地址>/actuator/health` 检查后端健康状态。

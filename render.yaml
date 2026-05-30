@@ -3,6 +3,7 @@ services:
     name: lin-ragagent-api
     runtime: docker
     plan: free
+    region: singapore
     dockerfilePath: ./Dockerfile
     healthCheckPath: /actuator/health
     envVars:

@@ -19,6 +19,7 @@
 - 将生产环境端口调整为优先读取平台注入的 `PORT`，同时保留本地 `SERVER_PORT` 回退值。
 - 增加 Aiven MySQL、PostgreSQL、Valkey、Kafka 和 OpenSearch 的 TLS 连接配置，并修正 Redisson 对 Spring Boot 3.5 Redis SSL 开关的识别逻辑。
 - Render 演示模板默认使用 Aiven 免费数据库自带的 `defaultdb`，减少额外数据库创建步骤。
+- Render 演示后端固定部署到新加坡区域，减少访问 Aiven 亚太免费实例的网络延迟。
 
 ## 当前启动验证状态
 
