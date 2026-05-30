@@ -11,6 +11,7 @@
 - 增加 `application-prod.yaml`，将生产环境数据库、中间件、管理员账号、JWT secret、API key 等配置改为环境变量注入，并收敛 Actuator 暴露范围。
 - 修正各模块 `AutoConfiguration.imports` 中遗留的 `org.javaup.*` 自动配置类名，避免 Spring Boot 启动时报 `Unable to read meta-data`。
 - 修正主业务模块 `log4j2.xml` 的日志过滤包名前缀，使其与当前 `org.Lin` 包名一致。
+- 将 Elasticsearch 默认索引名与 MinIO 默认 bucket 名改为小写，满足两类中间件的命名约束。
 
 ## 当前启动验证状态
 

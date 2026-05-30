@@ -33,7 +33,7 @@ app:
       endpoint: ${MINIO_ENDPOINT}
       access-key: ${MINIO_ACCESS_KEY}
       secret-key: ${MINIO_SECRET_KEY}
-      bucket-name: ${MINIO_BUCKET_NAME:Lin-RagAgent-document}
+      bucket-name: ${MINIO_BUCKET_NAME:lin-ragagent-document}
     kafka:
       auto-create-topics: ${KAFKA_AUTO_CREATE_TOPICS:false}
     pgvector:

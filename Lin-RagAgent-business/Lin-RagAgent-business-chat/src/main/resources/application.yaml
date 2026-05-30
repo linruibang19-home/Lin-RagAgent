@@ -261,7 +261,7 @@ app:
       secret-key: minioadmin
       # 文档管理模块统一使用的 bucket 名称。
       # 应用启动时会自动检查这个 bucket 是否存在，不存在就自动创建。
-      bucket-name: ${prefix.distinction.name:Lin-RagAgent}-document
+      bucket-name: lin-ragagent-document
       # 原始文件对象前缀。
       # 最终对象路径一般会在这个前缀下再拼接文档 id 和文件名。
       object-prefix: rag/document
@@ -333,11 +333,11 @@ app:
       # Elasticsearch 密码。
       password: ${ELASTICSEARCH_PASSWORD:elastic}
       # 关键词索引名称。
-      index-name: ${prefix.distinction.name:Lin-RagAgent}-document-keyword
+      index-name: lin-ragagent-document-keyword
       # 导航层结构节点索引名称，粒度是 section/step/list_item，不和 chunk 级关键词索引混用。
-      navigation-index-name: ${prefix.distinction.name:Lin-RagAgent}-document-navigation
+      navigation-index-name: lin-ragagent-document-navigation
       # 知识路由索引名称，粒度是 scope/topic/document 路由元数据，不和正文索引混用。
-      route-index-name: ${prefix.distinction.name:Lin-RagAgent}-knowledge-route
+      route-index-name: lin-ragagent-knowledge-route
       # 建索引 analyzer。
       # 如果本地未安装 IK 插件，启动时会自动回退到 standard。
       analyzer: ik_max_word

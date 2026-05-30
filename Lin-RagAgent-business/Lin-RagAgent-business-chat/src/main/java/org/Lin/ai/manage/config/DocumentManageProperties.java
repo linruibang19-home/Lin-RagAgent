@@ -35,7 +35,7 @@ public class DocumentManageProperties {
         private String endpoint = "http://127.0.0.1:9000";
         private String accessKey = "minioadmin";
         private String secretKey = "minioadmin";
-        private String bucketName = "Lin-RagAgent-document";
+        private String bucketName = "lin-ragagent-document";
         private String objectPrefix = "rag/document";
         private String parsedTextPrefix = "rag/parsed-text";
     }
