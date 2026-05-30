@@ -2,16 +2,16 @@ package org.Lin.ai.manage.config;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.json.jackson.JacksonJsonpMapper;
-import co.elastic.clients.transport.ElasticsearchTransport;
-import co.elastic.clients.transport.rest_client.RestClientTransport;
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.elasticsearch.client.RestClient;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.util.Timeout;
+import org.opensearch.client.RestClient;
+import org.opensearch.client.json.jackson.JacksonJsonpMapper;
+import org.opensearch.client.opensearch.OpenSearchClient;
+import org.opensearch.client.transport.OpenSearchTransport;
+import org.opensearch.client.transport.rest_client.RestClientTransport;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -38,21 +38,21 @@ public class DocumentManageElasticsearchConfiguration {
 
         HttpHost[] hosts = elasticsearch.getUris().stream()
             .filter(StrUtil::isNotBlank)
-            .map(HttpHost::create)
+            .map(this::createHttpHost)
             .toArray(HttpHost[]::new);
 
-        org.elasticsearch.client.RestClientBuilder builder = RestClient.builder(hosts)
+        org.opensearch.client.RestClientBuilder builder = RestClient.builder(hosts)
             .setRequestConfigCallback(requestConfigBuilder -> requestConfigBuilder
-                .setConnectTimeout(elasticsearch.getConnectTimeoutMillis())
-                .setSocketTimeout(elasticsearch.getSocketTimeoutMillis()));
+                .setConnectTimeout(Timeout.ofMilliseconds(elasticsearch.getConnectTimeoutMillis()))
+                .setResponseTimeout(Timeout.ofMilliseconds(elasticsearch.getSocketTimeoutMillis())));
 
         if (StrUtil.isNotBlank(elasticsearch.getUsername())) {
-            CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+            BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
             credentialsProvider.setCredentials(
-                AuthScope.ANY,
+                new AuthScope(null, -1),
                 new UsernamePasswordCredentials(
                     elasticsearch.getUsername(),
-                    StrUtil.blankToDefault(elasticsearch.getPassword(), "")
+                    StrUtil.blankToDefault(elasticsearch.getPassword(), "").toCharArray()
                 )
             );
             builder.setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
@@ -61,16 +61,25 @@ public class DocumentManageElasticsearchConfiguration {
         return builder.build();
     }
 
+    private HttpHost createHttpHost(String uri) {
+        try {
+            return HttpHost.create(uri);
+        }
+        catch (java.net.URISyntaxException exception) {
+            throw new IllegalArgumentException("Invalid app.manage.elasticsearch URI: " + uri, exception);
+        }
+    }
+
     @Bean(name = "documentManageElasticsearchTransport", destroyMethod = "close")
-    public ElasticsearchTransport documentManageElasticsearchTransport(
+    public OpenSearchTransport documentManageElasticsearchTransport(
         @Qualifier("documentManageElasticsearchRestClient") RestClient restClient,
         com.fasterxml.jackson.databind.ObjectMapper objectMapper) {
         return new RestClientTransport(restClient, new JacksonJsonpMapper(objectMapper));
     }
 
     @Bean(name = "documentManageElasticsearchClient")
-    public ElasticsearchClient documentManageElasticsearchClient(
-        @Qualifier("documentManageElasticsearchTransport") ElasticsearchTransport transport) {
-        return new ElasticsearchClient(transport);
+    public OpenSearchClient documentManageElasticsearchClient(
+        @Qualifier("documentManageElasticsearchTransport") OpenSearchTransport transport) {
+        return new OpenSearchClient(transport);
     }
 }
