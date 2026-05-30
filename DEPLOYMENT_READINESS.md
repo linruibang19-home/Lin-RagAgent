@@ -22,6 +22,7 @@
 - Render 演示后端固定部署到新加坡区域，减少访问 Aiven 亚太免费实例的网络延迟。
 - Render 容器启动时支持从 `AIVEN_CA_CERT` 导入 Aiven 项目 CA，供 Valkey 和 Kafka TLS 连接复用。
 - Render Blueprint 要求显式填写 Aiven MySQL、Valkey 和 PostgreSQL 动态端口，避免误用本地默认端口。
+- 生产环境关闭 Neo4j 时同步禁用 Spring Boot 默认 Neo4j 健康检查，避免 Render 探活误连 `localhost:7687`。
 
 ## 当前启动验证状态
 

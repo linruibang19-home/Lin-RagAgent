@@ -62,6 +62,9 @@ app:
       database: ${NEO4J_DATABASE:neo4j}
 
 management:
+  health:
+    neo4j:
+      enabled: false
   endpoint:
     health:
       show-details: when_authorized
