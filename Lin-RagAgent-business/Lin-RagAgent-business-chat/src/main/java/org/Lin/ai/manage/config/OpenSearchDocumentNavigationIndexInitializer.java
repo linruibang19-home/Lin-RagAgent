@@ -1,7 +1,7 @@
 package org.Lin.ai.manage.config;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch.indices.ExistsRequest;
+import org.opensearch.client.opensearch.OpenSearchClient;
+import org.opensearch.client.opensearch.indices.ExistsRequest;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,14 +19,14 @@ import java.io.IOException;
 @Slf4j
 @Component
 @ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "enabled", havingValue = "true", matchIfMissing = true)
-@ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "client-type", havingValue = "elasticsearch", matchIfMissing = true)
-public class DocumentElasticsearchIndexInitializer {
+@ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "client-type", havingValue = "opensearch")
+public class OpenSearchDocumentNavigationIndexInitializer {
 
-    private final ElasticsearchClient elasticsearchClient;
+    private final OpenSearchClient elasticsearchClient;
     private final DocumentManageProperties properties;
 
-    public DocumentElasticsearchIndexInitializer(
-        @Qualifier("documentManageElasticsearchClient") ElasticsearchClient elasticsearchClient,
+    public OpenSearchDocumentNavigationIndexInitializer(
+        @Qualifier("documentManageElasticsearchClient") OpenSearchClient elasticsearchClient,
         DocumentManageProperties properties) {
         this.elasticsearchClient = elasticsearchClient;
         this.properties = properties;
@@ -35,25 +35,25 @@ public class DocumentElasticsearchIndexInitializer {
     @PostConstruct
     public void initIndex() {
         DocumentManageProperties.Elasticsearch elasticsearch = properties.getElasticsearch();
-        String indexName = elasticsearch.getIndexName();
+        String indexName = elasticsearch.getNavigationIndexName();
         String analyzer = elasticsearch.getAnalyzer();
         String searchAnalyzer = elasticsearch.getSearchAnalyzer();
         try {
             if (indexExists(indexName)) {
-                log.info("Elasticsearch 索引 [{}] 已存在，跳过创建。", indexName);
+                log.info("Elasticsearch 导航索引 [{}] 已存在，跳过创建。", indexName);
                 return;
             }
             createIndex(indexName, analyzer, searchAnalyzer);
-            log.info("Elasticsearch 索引 [{}] 创建完成，analyzer={}, searchAnalyzer={}",
+            log.info("Elasticsearch 导航索引 [{}] 创建完成，analyzer={}, searchAnalyzer={}",
                 indexName, analyzer, searchAnalyzer);
         }
         catch (IOException exception) {
             if (isIkAnalyzer(analyzer) || isIkAnalyzer(searchAnalyzer)) {
-                log.warn("使用 IK 分词器创建 Elasticsearch 索引失败，准备回退到 standard。原因: {}", exception.getMessage());
+                log.warn("使用 IK 分词器创建导航索引失败，准备回退到 standard。原因: {}", exception.getMessage());
                 fallbackToStandard(indexName);
                 return;
             }
-            log.error("初始化 Elasticsearch 索引失败: {}", exception.getMessage(), exception);
+            log.error("初始化导航索引失败: {}", exception.getMessage(), exception);
         }
     }
 
@@ -65,29 +65,28 @@ public class DocumentElasticsearchIndexInitializer {
         elasticsearchClient.indices().create(create -> create
             .index(indexName)
             .mappings(mapping -> mapping
-                .properties("chunkId", property -> property.keyword(keyword -> keyword))
+                .properties("nodeId", property -> property.long_(number -> number))
                 .properties("documentId", property -> property.long_(number -> number))
-                .properties("taskId", property -> property.long_(number -> number))
-                .properties("chunkNo", property -> property.integer(number -> number))
-                .properties("documentName", property -> property.text(text -> text
+                .properties("parseTaskId", property -> property.long_(number -> number))
+                .properties("nodeType", property -> property.keyword(keyword -> keyword))
+                .properties("nodeCode", property -> property.keyword(keyword -> keyword))
+                .properties("nodeNo", property -> property.integer(number -> number))
+                .properties("depth", property -> property.integer(number -> number))
+                .properties("parentNodeId", property -> property.long_(number -> number))
+                .properties("title", property -> property.text(text -> text
+                    .analyzer(analyzer)
+                    .searchAnalyzer(searchAnalyzer)))
+                .properties("anchorText", property -> property.text(text -> text
                     .analyzer(analyzer)
                     .searchAnalyzer(searchAnalyzer)))
                 .properties("sectionPath", property -> property.text(text -> text
                     .analyzer(analyzer)
                     .searchAnalyzer(searchAnalyzer)))
-                .properties("structureNodeId", property -> property.long_(number -> number))
-                .properties("structureNodeType", property -> property.integer(number -> number))
                 .properties("canonicalPath", property -> property.keyword(keyword -> keyword))
+                .properties("contentText", property -> property.text(text -> text
+                    .analyzer(analyzer)
+                    .searchAnalyzer(searchAnalyzer)))
                 .properties("itemIndex", property -> property.integer(number -> number))
-                .properties("knowledgeScopeCode", property -> property.keyword(keyword -> keyword))
-                .properties("knowledgeScopeName", property -> property.text(text -> text
-                    .analyzer(analyzer)
-                    .searchAnalyzer(searchAnalyzer)))
-                .properties("businessCategory", property -> property.keyword(keyword -> keyword))
-                .properties("documentTags", property -> property.keyword(keyword -> keyword))
-                .properties("chunkText", property -> property.text(text -> text
-                    .analyzer(analyzer)
-                    .searchAnalyzer(searchAnalyzer)))
             )
         );
     }
@@ -102,10 +101,10 @@ public class DocumentElasticsearchIndexInitializer {
                 return;
             }
             createIndex(indexName, "standard", "standard");
-            log.info("Elasticsearch 索引 [{}] 已回退到 standard 分词器。", indexName);
+            log.info("Elasticsearch 导航索引 [{}] 已回退到 standard 分词器。", indexName);
         }
         catch (IOException exception) {
-            log.error("回退创建 Elasticsearch 索引失败: {}", exception.getMessage(), exception);
+            log.error("回退创建导航索引失败: {}", exception.getMessage(), exception);
         }
     }
 }

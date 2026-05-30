@@ -327,6 +327,8 @@ app:
     elasticsearch:
       # 是否启用 Elasticsearch 关键词检索。
       enabled: true
+      # 本地默认使用 Elasticsearch；生产环境可切换为 OpenSearch。
+      client-type: elasticsearch
       # Elasticsearch 地址列表。
       uris:
         - http://127.0.0.1:9200

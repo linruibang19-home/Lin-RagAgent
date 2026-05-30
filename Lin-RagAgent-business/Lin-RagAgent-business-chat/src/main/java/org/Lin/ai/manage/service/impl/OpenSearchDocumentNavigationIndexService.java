@@ -3,13 +3,15 @@ package org.Lin.ai.manage.service.impl;
 import lombok.AllArgsConstructor;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch._types.Refresh;
-import co.elastic.clients.elasticsearch._types.query_dsl.TextQueryType;
-import co.elastic.clients.elasticsearch.core.BulkRequest;
-import co.elastic.clients.elasticsearch.core.BulkResponse;
-import co.elastic.clients.elasticsearch.core.SearchResponse;
-import co.elastic.clients.elasticsearch.core.search.Hit;
+import org.opensearch.client.opensearch.OpenSearchClient;
+import org.opensearch.client.opensearch._types.FieldValue;
+import org.opensearch.client.opensearch._types.Refresh;
+import org.opensearch.client.opensearch._types.query_dsl.BoolQuery;
+import org.opensearch.client.opensearch._types.query_dsl.TextQueryType;
+import org.opensearch.client.opensearch.core.BulkRequest;
+import org.opensearch.client.opensearch.core.BulkResponse;
+import org.opensearch.client.opensearch.core.SearchResponse;
+import org.opensearch.client.opensearch.core.search.Hit;
 import lombok.extern.slf4j.Slf4j;
 import org.Lin.ai.manage.config.DocumentManageProperties;
 import org.Lin.ai.manage.data.SuperAgentDocumentStructureNode;
@@ -35,13 +37,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Service
 @ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "enabled", havingValue = "true", matchIfMissing = true)
-@ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "client-type", havingValue = "elasticsearch", matchIfMissing = true)
-public class ElasticsearchDocumentNavigationIndexService implements DocumentNavigationIndexService {
+@ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "client-type", havingValue = "opensearch")
+public class OpenSearchDocumentNavigationIndexService implements DocumentNavigationIndexService {
 
     private static final int DEFAULT_SEARCH_SIZE = 8;
 
     @Qualifier("documentManageElasticsearchClient")
-    private final ElasticsearchClient elasticsearchClient;
+    private final OpenSearchClient elasticsearchClient;
     private final DocumentManageProperties properties;
 
     @Override
@@ -103,7 +105,7 @@ public class ElasticsearchDocumentNavigationIndexService implements DocumentNavi
                 .refresh(true)
                 .query(query -> query.term(term -> term
                     .field("documentId")
-                    .value(documentId)
+                    .value(FieldValue.of(documentId))
                 ))
             );
         }
@@ -142,11 +144,11 @@ public class ElasticsearchDocumentNavigationIndexService implements DocumentNavi
                     .query(query -> query.bool(bool -> {
                         bool.filter(filter -> filter.term(term -> term
                             .field("documentId")
-                            .value(documentId)
+                            .value(FieldValue.of(documentId))
                         ));
                         bool.filter(filter -> filter.term(term -> term
                             .field("nodeType")
-                            .value(DocumentStructureNodeTypeEnum.SECTION.name())
+                            .value(FieldValue.of(DocumentStructureNodeTypeEnum.SECTION.name()))
                         ));
                         for (String queryText : queries) {
                             addSectionShouldQueries(bool, queryText);
@@ -183,7 +185,7 @@ public class ElasticsearchDocumentNavigationIndexService implements DocumentNavi
         }
     }
 
-    private void addSectionShouldQueries(co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery.Builder bool,
+    private void addSectionShouldQueries(BoolQuery.Builder bool,
                                          String queryText) {
         if (StrUtil.isBlank(queryText)) {
             return;

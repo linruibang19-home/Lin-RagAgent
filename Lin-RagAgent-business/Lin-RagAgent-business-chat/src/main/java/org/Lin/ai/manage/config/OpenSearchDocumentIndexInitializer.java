@@ -1,7 +1,7 @@
 package org.Lin.ai.manage.config;
 
-import co.elastic.clients.elasticsearch.ElasticsearchClient;
-import co.elastic.clients.elasticsearch.indices.ExistsRequest;
+import org.opensearch.client.opensearch.OpenSearchClient;
+import org.opensearch.client.opensearch.indices.ExistsRequest;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,14 +19,14 @@ import java.io.IOException;
 @Slf4j
 @Component
 @ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "enabled", havingValue = "true", matchIfMissing = true)
-@ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "client-type", havingValue = "elasticsearch", matchIfMissing = true)
-public class DocumentElasticsearchIndexInitializer {
+@ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "client-type", havingValue = "opensearch")
+public class OpenSearchDocumentIndexInitializer {
 
-    private final ElasticsearchClient elasticsearchClient;
+    private final OpenSearchClient elasticsearchClient;
     private final DocumentManageProperties properties;
 
-    public DocumentElasticsearchIndexInitializer(
-        @Qualifier("documentManageElasticsearchClient") ElasticsearchClient elasticsearchClient,
+    public OpenSearchDocumentIndexInitializer(
+        @Qualifier("documentManageElasticsearchClient") OpenSearchClient elasticsearchClient,
         DocumentManageProperties properties) {
         this.elasticsearchClient = elasticsearchClient;
         this.properties = properties;

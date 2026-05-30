@@ -68,7 +68,9 @@ services:
       - key: ELASTICSEARCH_URI
         sync: false
       - key: ELASTICSEARCH_ENABLED
-        value: "false"
+        value: "true"
+      - key: ELASTICSEARCH_CLIENT_TYPE
+        value: opensearch
       - key: ELASTICSEARCH_USERNAME
         sync: false
       - key: ELASTICSEARCH_PASSWORD

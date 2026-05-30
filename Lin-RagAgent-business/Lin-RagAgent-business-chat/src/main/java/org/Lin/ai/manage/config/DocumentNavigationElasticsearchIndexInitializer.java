@@ -19,6 +19,7 @@ import java.io.IOException;
 @Slf4j
 @Component
 @ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "app.manage.elasticsearch", name = "client-type", havingValue = "elasticsearch", matchIfMissing = true)
 public class DocumentNavigationElasticsearchIndexInitializer {
 
     private final ElasticsearchClient elasticsearchClient;
