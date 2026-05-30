@@ -102,7 +102,7 @@ public class OpenSearchDocumentNavigationIndexService implements DocumentNavigat
             log.info("删除导航索引文档数据: documentId={}, index={}", documentId, properties.getElasticsearch().getNavigationIndexName());
             elasticsearchClient.deleteByQuery(delete -> delete
                 .index(properties.getElasticsearch().getNavigationIndexName())
-                .refresh(true)
+                .refresh(Refresh.True)
                 .query(query -> query.term(term -> term
                     .field("documentId")
                     .value(FieldValue.of(documentId))

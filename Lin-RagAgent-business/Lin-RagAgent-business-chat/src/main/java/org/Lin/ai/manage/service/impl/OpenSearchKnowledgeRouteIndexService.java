@@ -155,7 +155,7 @@ public class OpenSearchKnowledgeRouteIndexService implements KnowledgeRouteIndex
         try {
             elasticsearchClient.deleteByQuery(delete -> delete
                 .index(properties.getElasticsearch().getRouteIndexName())
-                .refresh(true)
+                .refresh(Refresh.True)
                 .query(query -> query.bool(bool -> bool
                     .filter(filter -> filter.term(term -> term
                         .field("entityType")
@@ -180,7 +180,7 @@ public class OpenSearchKnowledgeRouteIndexService implements KnowledgeRouteIndex
         String indexName = properties.getElasticsearch().getRouteIndexName();
         elasticsearchClient.deleteByQuery(delete -> delete
             .index(indexName)
-            .refresh(true)
+            .refresh(Refresh.True)
             .query(query -> query.matchAll(matchAll -> matchAll))
         );
         if (records.isEmpty()) {

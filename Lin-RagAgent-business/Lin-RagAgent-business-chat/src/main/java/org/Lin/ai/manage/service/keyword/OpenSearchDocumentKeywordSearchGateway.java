@@ -257,7 +257,7 @@ public class OpenSearchDocumentKeywordSearchGateway implements DocumentKeywordSe
         try {
             elasticsearchClient.deleteByQuery(delete -> delete
                 .index(properties.getElasticsearch().getIndexName())
-                .refresh(true)
+                .refresh(Refresh.True)
                 .query(query -> query.term(term -> term
                     .field("documentId")
                     .value(FieldValue.of(documentId))

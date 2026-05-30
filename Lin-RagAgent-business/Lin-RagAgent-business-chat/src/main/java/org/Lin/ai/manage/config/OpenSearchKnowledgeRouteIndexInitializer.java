@@ -47,7 +47,7 @@ public class OpenSearchKnowledgeRouteIndexInitializer {
             log.info("Elasticsearch 知识路由索引 [{}] 创建完成，analyzer={}, searchAnalyzer={}",
                 indexName, analyzer, searchAnalyzer);
         }
-        catch (IOException exception) {
+        catch (Exception exception) {
             if (isIkAnalyzer(analyzer) || isIkAnalyzer(searchAnalyzer)) {
                 log.warn("使用 IK 分词器创建知识路由索引失败，准备回退到 standard。原因: {}", exception.getMessage());
                 fallbackToStandard(indexName);
@@ -99,7 +99,7 @@ public class OpenSearchKnowledgeRouteIndexInitializer {
             createIndex(indexName, "standard", "standard");
             log.info("Elasticsearch 知识路由索引 [{}] 已回退到 standard 分词器。", indexName);
         }
-        catch (IOException exception) {
+        catch (Exception exception) {
             log.error("回退创建知识路由索引失败: {}", exception.getMessage(), exception);
         }
     }
