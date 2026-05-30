@@ -21,6 +21,7 @@
 - Render 演示模板默认使用 Aiven 免费数据库自带的 `defaultdb`，减少额外数据库创建步骤。
 - Render 演示后端固定部署到新加坡区域，减少访问 Aiven 亚太免费实例的网络延迟。
 - Render 容器启动时支持从 `AIVEN_CA_CERT` 导入 Aiven 项目 CA，供 Valkey 和 Kafka TLS 连接复用。
+- Render Blueprint 要求显式填写 Aiven MySQL、Valkey 和 PostgreSQL 动态端口，避免误用本地默认端口。
 
 ## 当前启动验证状态
 

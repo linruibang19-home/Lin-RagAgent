@@ -16,7 +16,7 @@ services:
       - key: MYSQL_HOST
         sync: false
       - key: MYSQL_PORT
-        value: "3306"
+        sync: false
       - key: MYSQL_DATABASE
         value: defaultdb
       - key: MYSQL_USERNAME
@@ -28,7 +28,7 @@ services:
       - key: REDIS_HOST
         sync: false
       - key: REDIS_PORT
-        value: "6379"
+        sync: false
       - key: REDIS_PASSWORD
         sync: false
       - key: REDIS_SSL_ENABLED
@@ -56,7 +56,7 @@ services:
       - key: PGVECTOR_HOST
         sync: false
       - key: PGVECTOR_PORT
-        value: "5432"
+        sync: false
       - key: PGVECTOR_DATABASE
         value: defaultdb
       - key: PGVECTOR_USERNAME
