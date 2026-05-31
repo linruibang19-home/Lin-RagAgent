@@ -2,13 +2,15 @@ package org.Lin.ai.manage.config;
 
 import org.opensearch.client.opensearch.OpenSearchClient;
 import org.opensearch.client.opensearch.indices.ExistsRequest;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @program: 企业级别深度设计 AI Agent。
@@ -32,8 +34,12 @@ public class OpenSearchKnowledgeRouteIndexInitializer {
         this.properties = properties;
     }
 
-    @PostConstruct
-    public void initIndex() {
+    @EventListener(ApplicationReadyEvent.class)
+    public void initIndexAsync() {
+        CompletableFuture.runAsync(this::initIndex);
+    }
+
+    private void initIndex() {
         DocumentManageProperties.Elasticsearch elasticsearch = properties.getElasticsearch();
         String indexName = elasticsearch.getRouteIndexName();
         String analyzer = elasticsearch.getAnalyzer();
